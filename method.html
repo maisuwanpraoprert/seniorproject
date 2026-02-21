@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Education - Mai Suwanpraoprert</title>
+    <link rel="stylesheet" href="main.css"> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="nav-con">
+                <div class="logo"><a href="index.html">Method</a></div>
+                <ul class="menu">
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="result.html">Experiment</a></li>
+                    <li><a href="program-sim.html">Program Simulation</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="topmed">
+        <div class="container">
+            <div class="topmed-con">
+                <div class="topmed-info">
+                    <h3>Theory & Equipment</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="theory-section" class="detail-theory">
+        <div class="theory-container">
+            <h1>Theory</h1>
+
+            <section class="section-box">
+                <div class="header-row">
+                    <span class="number-box">1</span>
+                    <h2>Gamma Interaction</h2>
+                </div>
+
+                <div class="grid-3-column">
+                    <div class="card">
+                        <h3>Photoelectric Effect</h3>
+                        <div class="image-placeholder">
+                            <img src="IMG-10.png" width="70%">
+                        </div>
+                        <div class="lines">
+                            <p class="description">Low-energy photon is fully absorbed by an atom, ejecting an inner-shell electron and disappearing.</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Compton Scattering</h3>
+                        <div class="image-placeholder">
+                            <img src="IMG-11.png" width="70%">
+                        </div>
+                        <div class="lines">
+                            <p class="description">Medium-energy photon hits an electron, losing part of its energy and scattering in a new direction.</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Pair Production</h3>
+                        <div class="image-placeholder">
+                            <img src="IMG-12.png" width="70%">
+                        </div>
+                        <div class="lines">
+                            <p class="description">High-energy photon (&ge; 1.022 MeV) hits a nucleus, converting into an electron–positron pair.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="two-column-layout">
+                <section class="section-box">
+                    <div class="header-row">
+                        <span class="number-box">2</span>
+                        <h2>Gamma Transmission</h2>
+                    </div>
+                    <div class="flex-trans">
+                        <div class="slider-container">
+                            <button class="prev-btn" onclick="changeSlide(-1)">&#10094;</button>
+
+                            <div class="trans-img">
+                                <img src="trans.png" class="slide">
+                                <img src="equa.png" class="slide">
+                            </div>
+
+                            <button class="next-btn" onclick="changeSlide(1)">&#10095;</button>
+                        </div>
+                        <div class="lines-trans">
+                            <p>
+                                As gamma rays pass through the material, they are 
+                                <strong>attenuated</strong> depending on the 
+                                <strong>density and thickness</strong> of the object. 
+                                The initial intensity is denoted as <strong>I₀</strong>, 
+                                while the transmitted intensity is <strong>I</strong>. 
+                                By measuring this attenuation, a <strong>density profile</strong> 
+                                of the object can be obtained.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-box">
+                    <div class="header-row">
+                        <span class="number-box">3</span>
+                        <h2>Distillation Column</h2>
+                    </div>
+                    <div class="flex-column">
+                        <div class="slider-container">
+                            <button class="prev-btn" onclick="changeSlide2(-1)">&#10094;</button>
+
+                            <div class="column-img">
+                                <img src="fullcolumn.jpg" class="slide2" width="60%">
+                                <img src="reboil.jpg" class="slide2" width="60%">
+                                <img src="condense.jpg" class="slide2" width="60%">
+                                <img src="tray.jpg" class="slide2" width="60%">
+                            </div>
+
+                            <button class="next-btn" onclick="changeSlide2(1)">&#10095;</button>
+                        </div>
+                        <div class="text-container">
+                            <div class="info-group">
+                                <h3><strong style="color: #070da1;">Reboiler</strong></h3>
+                                <p>Provides heat to the liquid at the bottom of the column and generates vapor that flows upward into the distillation column.</p>
+                            </div>
+
+                            <div class="info-group">
+                                <h3><strong style="color: #070da1;">Condenser</strong></h3>
+                                <p>Condenses vapor into liquid at the top of the column.</p>
+                            </div>
+
+                            <div class="info-group">
+                                <h3><strong style="color: #070da1;">Tray</strong></h3>
+                                <p>Provides contact surface between liquid and vapor to enhance mass transfer efficiency.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <section class="section-box">
+                <div class="header-row">
+                    <span class="number-box">4</span>
+                    <h2>Counting System</h2>
+                </div>
+
+                <div class="counting-details-top">
+                    <div class="info-card-detail">
+                        <h3>Radiation Source (Am-241)</h3>
+                        <ul class="bullet-list">
+                            <li>Provides stable 59.5 keV gamma rays to penetrate column walls and trays.</li>
+                            <li>Signal intensity decreases based on the density and obstructions encountered.</li>
+                            <li>Ideal energy level for high-resolution imaging in lab-scale models.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-card-detail">
+                        <h3>Detector (NaI Scintillator)</h3>
+                        <ul class="bullet-list">
+                            <li>Captures residual gamma rays via the NaI(Tl) crystal.</li>
+                            <li>Converts radiation into light pulses amplified by a PMT.</li>
+                            <li>Provides precise count rates to map the internal density profile.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="diagram-wrapper">
+                    <div class="diagram-card">
+                        <img src="diagram.png" class="full-img">
+                    </div>
+                </div>
+
+                <p class="counting-desc-outside">
+                    Gamma rays from the <strong style="color: #070da1;">Am-241 source</strong> interact with the 
+                    <strong style="color: #070da1;">NaI(Tl) scintillator</strong>, producing light pulses that are 
+                    processed by a <strong>Ludlum 2200 model</strong>. 
+                    The <span style="color: black; font-weight: bold;">ESP32 microcontroller</span> captures and transmits this data to a <strong>live web dashboard</strong>, 
+                    automatically plotting the <strong style="color: #070da1;">density profile</strong> 
+                    relative to the measurement height.
+                </p>
+            </section>
+        </div>
+    </section>
+
+    <section id="equip-section" class="detail-equip">
+        <div class="equip-container">
+            <h1>Equipment</h1>
+
+            <div class="header-row">
+                <span class="number-box">1</span>
+                <h2>Column Model</h2>
+            </div>
+            <div class="carousel-viewport">
+                <div class="carousel-track" id="carouselTrack1">
+                    <div class="equip-card active">
+                        <div class="card-content">
+                            <h3>PVC</h3>
+                            <img src="pvc.png">
+                            <p>height 75 cm<br>diameter 25 cm</p>
+                        </div>
+                    </div>
+
+                    <div class="equip-card">
+                        <div class="card-content">
+                            <h3>Tray Assembly</h3>
+                            <img src="tray.png">
+                            <p>acrylic thickness 5 mm.<br>threaded rod 8 mm.</p>
+                        </div>
+                    </div>
+
+                    <div class="equip-card">
+                        <div class="card-content">
+                            <h3>Water Pump</h3>
+                            <img src="pump.png">
+                            <p>5V DC pump</p>
+                        </div>
+                    </div>
+
+                    <div class="equip-card">
+                        <div class="card-content">
+                            <h3>Air Hose</h3>
+                            <img src="สายยาง.png">
+                            <p>80 cm. long</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-controls">
+                <button class="btn-prev" onclick="moveCarousel(-1)">PREV</button>
+                <button class="btn-next" onclick="moveCarousel(1)">NEXT</button>
+            </div>
+
+
+            <div class="header-row">
+                <span class="number-box">2</span>
+                <h2>Vertical Scanning Structure</h2>
+            </div>
+            <div class="carousel-viewport">
+                <div class="carousel-track" id="carouselTrack2">
+                    <div class="equip-card active">
+                        <div class="card-content">
+                            <h3>Structure</h3>
+                            <img src="vslot.png" id="lll">
+                            <p>Aluminium Profile<br>V-Slot 20x20</p>
+                        </div>
+                    </div>
+
+                    <div class="equip-card">
+                        <div class="card-content">
+                            <h3>Mounting Assembly</h3>
+                            <img src="mounting.png" id="lll">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-controls">
+                <button class="btn-prev" onclick="moveCarouselEquip(-1)">PREV</button>
+                <button class="btn-next" onclick="moveCarouselEquip(1)">NEXT</button>
+            </div>
+
+           <div class="header-row">
+                <span class="number-box">3</span>
+                <h2>Drive System</h2>
+            </div>
+            <div class="carousel-viewport">
+                <div class="carousel-track" id="carouselTrack3">
+                    <div class="equip-card active">
+                        <div class="card-content">
+                            <h3>Stepper Motor</h3>
+                            <img src="motor.png">
+                            <p>10 N·cm torque<br>1 A rated current</p>
+                        </div>
+                    </div>
+
+                    <div class="equip-card">
+                        <div class="card-content">
+                            <h3>Lead Screw</h3>
+                            <img src="lead.png">
+                            <p>8 mm. 80 cm. long</p>
+                        </div>
+                    </div>
+
+                    <div class="equip-card">
+                        <div class="card-content">
+                            <h3>Motor Microstep Driver</h3>
+                            <img src="driver.png">
+                        </div>
+                    </div>
+
+                    <div class="equip-card">
+                        <div class="card-content">
+                            <h3>Coupling</h3>
+                            <img src="coupling.jpg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-controls">
+                <button class="btn-prev" onclick="moveCarouselDrive(-1)">PREV</button>
+                <button class="btn-next" onclick="moveCarouselDrive(1)">NEXT</button>
+            </div>
+
+            <div class="header-row">
+                <span class="number-box">4</span>
+                <h2>Controller</h2>
+            </div>
+            <div class="carousel-viewport">
+                <div class="carousel-track" id="carouselTrack4">
+                    <div class="equip-card active">
+                        <div class="card-content">
+                            <h3>User Control Interface</h3>
+                            <img src="pvc-image.jpg">
+                        </div>
+                    </div>
+
+                    <div class="equip-card">
+                        <div class="card-content">
+                            <h3>ESP32</h3>
+                            <img src="esp.png" id="lll">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-controls">
+                <button class="btn-prev" onclick="moveCarouselcontrol(-1)">PREV</button>
+                <button class="btn-next" onclick="moveCarouselcontrol(1)">NEXT</button>
+            </div>
+
+            <div class="header-row">
+                <span class="number-box">5</span>
+                <h2>Counting System</h2>
+            </div>
+            <div class="carousel-viewport">
+                <div class="carousel-track" id="carouselTrack5">
+                    <div class="equip-card active">
+                        <div class="card-content">
+                            <h3>NaI Scintillator Detector</h3>
+                            <img src="detector.jpg" id="lll">
+                        </div>
+                    </div>
+
+                    <div class="equip-card">
+                        <div class="card-content">
+                            <h3>Am-241 100mCi</h3>
+                            <img src="tray-image.jpg">
+                        </div>
+                    </div>
+
+                    <div class="equip-card">
+                        <div class="card-content">
+                            <h3>Ludlum 2200 model</h3>
+                            <img src="tray-image.jpg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-controls">
+                <button class="btn-prev" onclick="moveCarouseldetect(-1)">PREV</button>
+                <button class="btn-next" onclick="moveCarouseldetect(1)">NEXT</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="footer-top">
+        <div class="container">
+            <div class="footer-top-con">
+                <div class="footer-top-item">
+                    <h4>Contact information</h4>
+                    <div class="footer-top-item-con">
+                        <div class="date">
+                            Email <li><a href="mailto:maisuwanpraoprert@gmail.com">maisuwanpraoprert@gmail.com</a></li><a href="mailto:vikrom3001@gmail.com">vikrom3001@gmail.com</a><br><br>
+                            LinkedIn <li><a href="https://www.linkedin.com/in/mai-suwan" target="_blank">linkedin.com/in/mai-suwan</a></li><li><a href="https://www.linkedin.com/in/vikrom-kongtip-93b69336a/" target="_blank">linkedin.com/in/vikrom-kongtip</a></li>
+                        </div> 
+                    </div>
+                </div>
+                <div class="footer-top-item">
+                    <p>This senior project is developed by a team of two. We welcome opportunities for academic collaboration, technical discussion, and constructive feedback. If you have any questions or require further information, please feel free to contact us.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-buttom">© 2026 Mai and Vikrom | Project in Nuclear Enginnering 2111403 | Department of Nuclear Technology, Faculty of Engineering</div>
+
+    <script>
+        //***********เลื่อนทีละรูป theory************
+        //gamma transmission
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            // ดึงรายการรูปภาพทั้งหมดที่มีคลาส slide ณ เวลานั้น
+            const slides = document.querySelectorAll(".slide");
+        
+            // ตรวจสอบว่ามีรูปภาพอยู่ในลิสต์จริงไหม
+            if (slides.length === 0) return; 
+
+            // จัดการเรื่องลำดับการวนลูปรูปภาพ
+            if (index >= slides.length) {
+                currentSlide = 0;
+            } else if (index < 0) {
+                currentSlide = slides.length - 1;
+            } else {
+                currentSlide = index;
+            }
+
+            // ซ่อนทุกรูปก่อน
+            slides.forEach(img => {
+                img.style.display = "none";
+            });
+
+            // แสดงเฉพาะรูปที่ต้องการ
+            slides[currentSlide].style.display = "block";
+        }
+
+        function changeSlide(step) {
+            showSlide(currentSlide + step);
+        }
+
+        document.addEventListener("DOMContentLoaded", function() { // สำคัญมาก: ต้องเรียกใช้ฟังก์ชันครั้งแรกหลังจากโหลดหน้าเว็บเสร็จ
+            showSlide(0);
+        });
+
+        //distillation column
+        let currentSlide2 = 0;
+
+        function showSlide2(index) {
+            const slides2 = document.querySelectorAll(".slide2");
+            if (slides2.length === 0) return;
+
+            if (index >= slides2.length) currentSlide2 = 0;
+            else if (index < 0) currentSlide2 = slides2.length - 1;
+            else currentSlide2 = index;
+
+            // ซ่อนรูปทั้งหมดของชุดที่ 2 และทำให้นุ่มนวล
+            slides2.forEach(img => {
+                img.style.display = "none";
+                img.style.opacity = "0";
+                img.style.transition = "opacity 0.5s ease";
+            });
+
+            // แสดงรูปปัจจุบัน
+            slides2[currentSlide2].style.display = "block";
+            setTimeout(() => {
+                slides2[currentSlide2].style.opacity = "1";
+            }, 10);
+        }
+
+        function changeSlide2(step) {
+            showSlide2(currentSlide2 + step);
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {  // เรียกใช้งานเริ่มต้นสำหรับ Slider ที่ 2
+            showSlide2(0);
+        });
+
+
+        // ***********เลื่อนทีละcard equipment************
+        // 1. ส่วน Column Model
+        let currentIndex1 = 0;
+        function moveCarousel(step) {
+            const track = document.getElementById('carouselTrack1');
+            const viewport = track.parentElement; // หา viewport ที่คุม track นี้
+            const cards = track.querySelectorAll('.equip-card'); // หาเฉพาะการ์ดที่อยู่ใน track นี้
+            
+            currentIndex1 += step;
+            if (currentIndex1 < 0) currentIndex1 = cards.length - 1;
+            if (currentIndex1 >= cards.length) currentIndex1 = 0;
+
+            cards.forEach((card, i) => card.classList.toggle('active', i === currentIndex1));
+
+            const viewportWidth = viewport.offsetWidth;
+            const cardWidth = cards[currentIndex1].offsetWidth;
+            const cardOffsetLeft = cards[currentIndex1].offsetLeft;
+            const totalOffset = (viewportWidth / 2) - (cardOffsetLeft + cardWidth / 2);
+
+            track.style.transform = `translateX(${totalOffset}px)`;
+        }
+
+        // 2. ส่วน Vertical Scanning Structure
+        let currentIndex2 = 0;
+        function moveCarouselEquip(step) {
+            const track = document.getElementById('carouselTrack2'); 
+            const viewport = track.parentElement; 
+            const cards = track.querySelectorAll('.equip-card'); // หาเฉพาะการ์ดที่อยู่ใน track นี้
+            
+            currentIndex2 += step;
+            if (currentIndex2 < 0) currentIndex2 = cards.length - 1;
+            if (currentIndex2 >= cards.length) currentIndex2 = 0;
+
+            cards.forEach((card, i) => card.classList.toggle('active', i === currentIndex2));
+
+            const viewportWidth = viewport.offsetWidth;
+            const cardWidth = cards[currentIndex2].offsetWidth;
+            const cardOffsetLeft = cards[currentIndex2].offsetLeft;
+            const totalOffset = (viewportWidth / 2) - (cardOffsetLeft + cardWidth / 2);
+
+            track.style.transform = `translateX(${totalOffset}px)`;
+        }
+
+        // 3. ส่วน Drive system
+        let currentIndex3 = 0;
+        function moveCarouselDrive(step) {
+            const track = document.getElementById('carouselTrack3'); 
+            const viewport = track.parentElement; 
+            const cards = track.querySelectorAll('.equip-card'); // หาเฉพาะการ์ดที่อยู่ใน track นี้
+            
+            currentIndex3 += step;
+            if (currentIndex3 < 0) currentIndex3 = cards.length - 1;
+            if (currentIndex3 >= cards.length) currentIndex3 = 0;
+
+            cards.forEach((card, i) => card.classList.toggle('active', i === currentIndex3));
+
+            const viewportWidth = viewport.offsetWidth;
+            const cardWidth = cards[currentIndex3].offsetWidth;
+            const cardOffsetLeft = cards[currentIndex3].offsetLeft;
+            const totalOffset = (viewportWidth / 2) - (cardOffsetLeft + cardWidth / 2);
+
+            track.style.transform = `translateX(${totalOffset}px)`;
+        }
+
+        // 4. ส่วน controller
+        let currentIndex4 = 0;
+        function moveCarouselcontrol(step) {
+            const track = document.getElementById('carouselTrack4'); 
+            const viewport = track.parentElement; 
+            const cards = track.querySelectorAll('.equip-card'); // หาเฉพาะการ์ดที่อยู่ใน track นี้
+            
+            currentIndex4 += step;
+            if (currentIndex4 < 0) currentIndex4 = cards.length - 1;
+            if (currentIndex4 >= cards.length) currentIndex4 = 0;
+
+            cards.forEach((card, i) => card.classList.toggle('active', i === currentIndex4));
+
+            const viewportWidth = viewport.offsetWidth;
+            const cardWidth = cards[currentIndex4].offsetWidth;
+            const cardOffsetLeft = cards[currentIndex4].offsetLeft;
+            const totalOffset = (viewportWidth / 2) - (cardOffsetLeft + cardWidth / 2);
+
+            track.style.transform = `translateX(${totalOffset}px)`;
+        }
+
+        // 5. ส่วน counting
+        let currentIndex5 = 0;
+        function moveCarouseldetect(step) {
+            const track = document.getElementById('carouselTrack5');
+            const viewport = track.parentElement; 
+            const cards = track.querySelectorAll('.equip-card'); // หาเฉพาะการ์ดที่อยู่ใน track นี้
+            
+            currentIndex5 += step;
+            if (currentIndex5 < 0) currentIndex5 = cards.length - 1;
+            if (currentIndex5 >= cards.length) currentIndex5 = 0;
+
+            cards.forEach((card, i) => card.classList.toggle('active', i === currentIndex5));
+
+            const viewportWidth = viewport.offsetWidth;
+            const cardWidth = cards[currentIndex5].offsetWidth;
+            const cardOffsetLeft = cards[currentIndex5].offsetLeft;
+            const totalOffset = (viewportWidth / 2) - (cardOffsetLeft + cardWidth / 2);
+
+            track.style.transform = `translateX(${totalOffset}px)`;
+        }
+
+        // เรียกใช้ครั้งแรกเมื่อโหลดหน้า
+        window.addEventListener("load", function() {
+            moveCarousel(0);
+            moveCarouselEquip(0);
+        });
+    </script>
+</body>
+</html>

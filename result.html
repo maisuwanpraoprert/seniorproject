@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My page design</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="nav-con">
+                <div class="logo"><a href="#">Experiment</a></div>
+                <ul class = "menu">
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="method.html">Method</a>
+                        <ul class="dropdown">
+                            <li><a href="method.html#theory-section">Theory</a></li>
+                            <li><a href="method.html#equip-section">Equipment</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="program-sim.html">Program Simulation</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="topresut">
+        <div class="container">
+            <div class="topresult">
+                <div class="topresult-info">
+                    <h3>Experimental & Results</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="results-page">
+        <div class="container">
+            
+            <section class="exp-setup-section">
+                <h2>Experiment Setup</h2>
+                
+                <div class="setup-container">
+                    <div class="main-setup-img">
+                        <img src="setup.png">
+                    </div>
+                    <p class="setup-desc">This setup illustrates the integration of the gamma source and detector system mounted on the scanning structure.</p>
+                </div>
+            </section>
+
+            <section class="accuracy-section">
+                <div class="header-item">
+                    <span class="number-box">1</span>
+                    <h2>Movement Accuracy & Calibration</h2>
+                </div>
+                <div class="accuracy-content">
+                    <div class="accuracy-card">
+                        <img src="accuracy-graph.png" alt="Calibration Graph">
+                        <div class="accuracy-info">
+                            <p>Verification of source-detector synchronized movement. The deviation was found to be within ±0.5 mm throughout the 75 cm scanning height.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="tray-analysis-section">
+    <div class="header-item">
+        <span class="number-box">2</span>
+        <h2>Density Profile Analysis</h2>
+    </div>
+
+    <div class="analysis-comparison-grid">
+        
+        <div class="comparison-column normal-side">
+            <div class="tray-case">
+                <h3>Normal Case</h3>
+                <div class="side-content">
+                    <img src="normal-graph.png" class="large-graph" alt="Normal Profile">
+                    <div class="small-visuals">
+                        <img src="normal-tray.jpg" class="mini-photo" alt="Normal Tray">
+                    </div>
+                    <div class="tray-description">
+                        <p>The density profile shows sharp, consistent peaks at each tray level, indicating stable liquid holdup and structural integrity.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="comparison-column damaged-side">
+            <div class="tray-case">
+                <h3>Damaged Cases</h3>
+                
+                <div class="case-selector">
+                    <button class="case-btn active" onclick="openCase(event, 'leaking')">Leaking Tray</button>
+                    <button class="case-btn" onclick="openCase(event, 'tilted')">Tilted Tray</button>
+                    <button class="case-btn" onclick="openCase(event, 'dislodged')">Dislodged Tray</button>
+                </div>
+
+                <div id="leaking" class="case-content active">
+                    <img src="leaking-graph.png" class="large-graph" alt="Leaking Profile">
+                    <div class="small-visuals">
+                        <img src="leaking-tray.jpg" class="mini-photo" alt="Leaking Tray">
+                    </div>
+                    <div class="tray-description">
+                        <p>Peaks appear lower and broader. Indicates liquid is not being held properly, reducing phase contact time.</p>
+                    </div>
+                </div>
+
+                <div id="tilted" class="case-content">
+                    <img src="tilted-graph.png" class="large-graph" alt="Tilted Profile">
+                    <div class="small-visuals">
+                        <img src="tilted-tray.jpg" class="mini-photo" alt="Tilted Tray">
+                    </div>
+                    <div class="tray-description">
+                        <p>Results in an asymmetric profile. Shows higher liquid accumulation on one side and gas breakthrough on the other.</p>
+                    </div>
+                </div>
+
+                <div id="dislodged" class="case-content">
+                    <img src="dislodged-graph.png" class="large-graph" alt="Dislodged Profile">
+                    <div class="small-visuals">
+                        <img src="dislodged-tray.jpg" class="mini-photo" alt="Dislodged Tray">
+                    </div>
+                    <div class="tray-description">
+                        <p>Missing peak at tray elevation. Identifies a fallen tray, causing massive bypass and efficiency loss.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+        </div>
+    </main>
+
+    
+        <div class="footer-top">
+            <div class="container">
+                <div class="footer-top-con">
+                    <div class="footer-top-item">
+                        <h4>Contact information</h4>
+                        <div class="footer-top-item-con">
+                            <div class="date">
+                                Email <li><a href="mailto:maisuwanpraoprert@gmail.com">maisuwanpraoprert@gmail.com</a></li><a href="mailto:vikrom3001@gmail.com">vikrom3001@gmail.com</a><br><br>
+                                LinkedIn <li><a href="https://www.linkedin.com/in/mai-suwan" target="_blank">linkedin.com/in/mai-suwan</a></li><li><a href="https://www.linkedin.com/in/vikrom-kongtip-93b69336a/" target="_blank">linkedin.com/in/vikrom-kongtip</a></li>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="footer-top-item">
+                        <p>This senior project is developed by a team of two. We welcome opportunities for academic collaboration, technical discussion, and constructive feedback. If you have any questions or require further information, please feel free to contact us.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="footer-buttom">© 2026 Mai and Vikrom | Project in Nuclear Enginnering 2111403 | Department of Nuclear Technology, Faculty of Engineering</div>
+    <script>
+    function openCase(evt, caseName) {
+        // ซ่อนเนื้อหาเคสทั้งหมด
+        var i, caseContent, caseBtn;
+        caseContent = document.getElementsByClassName("case-content");
+        for (i = 0; i < caseContent.length; i++) {
+            caseContent[i].classList.remove("active");
+        }
+
+        // เอาคลาส active ออกจากปุ่มทั้งหมด
+        caseBtn = document.getElementsByClassName("case-btn");
+        for (i = 0; i < caseBtn.length; i++) {
+            caseBtn[i].classList.remove("active");
+        }
+
+        // แสดงเนื้อหาเคสที่เลือก และเพิ่มคลาส active ให้ปุ่มที่กด
+        document.getElementById(caseName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+    </script>
+</body>
+</html>

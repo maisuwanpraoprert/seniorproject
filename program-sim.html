@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My page design</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav>
+        <div class="container">
+            <div class="nav-con">
+                <div class="logo"><a href="#">Senior project</a></div>
+                <ul class = "menu">
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="method.html">Method</a>
+                        <ul class="dropdown">
+                            <li><a href="method.html#theory-section">Theory</a></li>
+                            <li><a href="method.html#equip-section">Equipment</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="result.html">Experiment</a></li>
+                    <li><a href="index.html" class="active">Home</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== Sim Program ===== -->
+    <section class="sim-content">
+
+        <!-- Page Title -->
+        <header class="sim-header">
+            <h1>Real-time Column Scan Result</h1>
+            <p>
+                Real-time monitoring of radiation count rate along the height of the distillation column using a NaI(Tl) detector.
+            </p>
+        </header>
+
+        <!-- ===== MAIN LAYOUT ===== -->
+
+        <div class="sim-layout">
+
+            <!-- Graph -->
+            <section class="graph-section">
+                <div id="countGraph"></div>
+            </section>
+
+            <!-- Info Panel (Right side) -->
+            <section class="info-sim vertical">
+                <div class="info-box box-status">
+                    <h3>Scan Status</h3>
+                    <p id="status">Idle</p>
+                </div>
+
+                <div class="info-box box-bg">
+                    <h3>Background Rate</h3>
+                    <p><span id="bg-rate">--</span> cps</p>
+                </div>
+
+                <div class="info-box">
+                    <h3>Height</h3>
+                    <p><span id="height">--</span> cm</p>
+                </div>
+
+                <div class="info-box">
+                    <h3>Net Count Rate</h3>
+                    <p><span id="counts">--</span> cps</p>
+                </div>
+
+                <div class="control-btn">
+                    <button class="btn start" onclick="startScan()">Start</button>
+                    <button class="btn stop" onclick="stopScan()">Stop</button>
+                    <button class="btn reset" onclick="resetScan()">Reset</button>
+                    <button class="btn save" id="saveBtn">Save IMG</button>
+                    <button class="btn export" onclick="exportCSV()">Export CSV</button>
+                </div>
+            </section>
+        </div>
+    </section>
+
+   
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="web.js"></script>
+
+
+    <div class="footer-top">
+        <div class="container">
+            <div class="footer-top-con">
+                <div class="footer-top-item">
+                    <h4>Contact information</h4>
+                    <div class="footer-top-item-con">
+                        <div class="date">
+                            Email <li><a href="mailto:maisuwanpraoprert@gmail.com">maisuwanpraoprert@gmail.com</a></li><a href="mailto:vikrom3001@gmail.com">vikrom3001@gmail.com</a><br><br>
+                            LinkedIn <li><a href="https://www.linkedin.com/in/mai-suwan" target="_blank">linkedin.com/in/mai-suwan</a></li><li><a href="https://www.linkedin.com/in/vikrom-kongtip-93b69336a/" target="_blank">linkedin.com/in/vikrom-kongtip</a></li>
+                        </div> 
+                    </div>
+                </div>
+                <div class="footer-top-item">
+                    <p>This senior project is developed by a team of two. We welcome opportunities for academic collaboration, technical discussion, and constructive feedback. If you have any questions or require further information, please feel free to contact us.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-buttom">© 2026 Mai and Vikrom | Project in Nuclear Enginnering 2111403 | Department of Nuclear Technology, Faculty of Engineering</div>
+</body>
+</html>

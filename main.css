@@ -1,0 +1,1142 @@
+/* ===========================================================================================
+                                            INDEX
+============================================================================================ */
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: rgb(241, 241, 241);
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container{
+    max-width: 1300x;
+    margin: 0 auto;
+}
+
+nav{
+    padding: 1rem;
+    background-color: #110d2a ;
+}
+
+.nav-con{
+    display: flex;
+    justify-content: space-between;
+}
+
+.logo a{
+    font-size: 2rem;
+    color: #fff;
+    text-decoration: none;
+    margin-left: 2rem;
+}
+
+.menu {
+    display: flex;
+    list-style: none;
+    align-items: center;
+}
+
+.menu li {
+    margin: 0 3rem;
+}
+
+.menu li a {
+    color: #7398c2;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+/******* dropdown  *******/
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul li {
+    display: inline-block;
+    position: relative;
+    vertical-align: top; /* ช่วยให้เมนูเรียงกันสวยขึ้น */
+}
+
+ul li a {
+    display: block;
+    padding: 15px 20px; /* ปรับ padding ให้สมดุล */
+    color: #fff; 
+    font-size: 1.2rem;
+    transition: 0.3s;
+}
+
+ul li ul.dropdown {
+    width: 250px; 
+    background: #1652ab;
+    position: absolute;
+    left: 0;      /* บังคับให้ชิดซ้ายสุดของเมนูหลัก */
+    top: 100%;    /* ให้แสดงต่อลงมาจากเมนูหลักพอดี */
+    z-index: 999;
+    display: none;
+    padding: 0;   /* สำคัญมาก: ล้างค่า padding ของ ul ชั้นใน */
+    margin: 0;
+    list-style: none;
+}
+
+ul li ul.dropdown li {
+    display: block; /* ให้รายการใน dropdown เรียงลงมาเป็นแถวเดียว */
+    width: 100%;
+    margin: 0;
+    padding:0;
+}
+
+ul li ul.dropdown li a {
+    text-decoration: none;
+    padding: 15px 20px;
+    font-size: 1rem; /* ปรับขนาดตัวอักษรให้เล็กลงหน่อยในเมนูย่อย */
+    color: #ffffff;
+    background: #1652ab; /* กำหนดสีพื้นหลังให้เหมือนกันทั้งแถบ */
+    border-bottom: 1px solid rgba(20, 19, 19, 0.1); /* เพิ่มเส้นคั่นบางๆ */
+}
+
+ul li a:hover { /* เอฟเฟกต์ตอน Hover */
+    background-color: #422c42 
+}
+
+ul li ul.dropdown li a:hover { /* เมื่อเอาเมาส์วางที่เมนูย่อย ให้เปลี่ยนสีเฉพาะแถวนั้น */
+    background-color: #422c42;
+}
+
+ul li:hover ul.dropdown {
+    display: block;
+}
+
+/***** ส่วนบน *****/
+.maincontent{
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://www.gustawater.com/update/blog/distillation/distillation-column.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+}
+
+.maincontent-con{
+    display: flex;
+    align-items: center;
+}
+
+.maincontent-info{
+    width: 50%;
+    padding: 2rem;
+    margin-left: 3rem;
+}
+
+.maincontent-info h3{
+    margin-top: 4rem;
+    font-size: 4rem;
+    margin-bottom: 2rem;
+}
+
+.maincontent-info p{ 
+    margin-bottom: 3rem;
+}
+
+.maincontent-info .maincontent-btn{
+    background-color: #422c42;
+    color: #fff;
+    padding: 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.maincontent-info .maincontent-btn:hover {
+    background-color: #110d2a; /* เปลี่ยนเป็นสีที่คุณต้องการเมื่อเอาเมาส์วาง */
+    color: #ffffff;         
+    transition: 0.3s;          /* เพิ่มความสมูทในการเปลี่ยนสี */
+    cursor: pointer;           /* เปลี่ยนสัญลักษณ์เมาส์เป็นรูปมือ */
+}
+
+.maincontent-img{
+    margin-top: 7rem;
+    margin-bottom: 4.3rem;
+    width: 50%;
+    padding-left: 7rem;
+}
+.rounded-img {
+    width: 60%;
+    border-radius: 15px; 
+    overflow: hidden;    /* ช่วยกันไม่ให้ภาพล้นขอบมน */
+}
+
+/*******content ตรงกลาง******/
+.content-con{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 8rem;
+    align-items: center;    
+    text-align: center;
+    margin:5rem;
+}
+
+.content-title{
+    margin: 2rem 0;
+}
+
+.content-item img{
+    width: 100%;
+}
+
+.content-item h4{
+    color:#1652ab;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.tray-img {
+    display: flex;
+    width: 80%;       /* กำหนดความกว้างรวมของแถวรูปภาพ */
+    height: 300px;     /* กำหนดความสูงตามความต้องการ */
+    gap: 10px;       
+    overflow: hidden;
+    margin: 3rem auto;
+    justify-content: center;
+}
+
+.tray-img img {
+    flex: 1;           /* ทุกรูปมีขนาดเท่ากันในตอนเริ่มต้น */
+    width: 0;          /* บังคับให้ใช้ flex ในการคุมขนาด */
+    object-fit: cover; /* ป้องกันไม่ให้รูปเบี้ยวเวลาขยาย */
+    transition: flex 0.5s ease; /* ความเร็วในการขยาย-หด */
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.tray-img img:hover { /* เมื่อเอาเมาส์ไปวางที่รูปไหน รูปนั้นจะขยาย */
+    flex: 2.7;           /* ปรับค่านี้ให้มากขึ้นหากต้องการให้รูปที่ Hover ใหญ่ขึ้นอีก */
+}
+
+.sol-img {
+    display: flex;
+    width: 50%;       /* กำหนดความกว้างรวมของแถวรูปภาพ */
+    height: 300px;     /* กำหนดความสูงตามความต้องการ */
+    gap: 10px;         /* ระยะห่างระหว่างรูป */
+    overflow: hidden;
+    margin: 3rem auto;
+    justify-content: center;
+}
+
+.sol-img img {
+    flex: 1;           /* ทุกรูปมีขนาดเท่ากันในตอนเริ่มต้น */
+    width: 0;          /* บังคับให้ใช้ flex ในการคุมขนาด */
+    object-fit: cover; /* ป้องกันไม่ให้รูปเบี้ยวเวลาขยาย */
+    transition: flex 0.5s ease; /* ความเร็วในการขยาย-หด */
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.sol-img img:hover { /* เมื่อเอาเมาส์ไปวางที่รูปไหน รูปนั้นจะขยาย */
+    flex: 1.5;           /* ปรับค่านี้ให้มากขึ้นหากต้องการให้รูปที่ Hover ใหญ่ขึ้นอีก */
+}
+
+.content-item p{
+    margin: 1rem 0;
+    text-align: justify;
+    text-indent: 2em;
+    color: rgb(83, 83, 83);
+}
+
+.footer-top{
+    margin-top: 2rem;
+    padding: 3rem;
+    background-color: #110d2a;
+    color: #fff;
+}
+
+.footer-top-con{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 6rem;
+    margin-left: 3rem;
+    margin-right: 3rem;
+}
+
+.footer-top-item {
+    list-style: none;
+}
+
+.footer-top-item h4{
+    font-size: 1.3rem;
+}
+
+.footer-top-item-con{
+    margin: 1rem;
+}
+
+.footer-top-item-con .date{
+    color: #fff;
+    text-align: left;
+}
+
+.date a{
+    color: #776a26;
+    text-decoration: none;
+}
+
+
+.footer-top-item p{
+    text-indent: 2em;
+    padding-top: 22%;
+    color: #939393;
+    text-align: left;
+}
+
+.footer-buttom{
+    background-color: #d1d1d1;
+    padding: 1rem;
+    text-align: center;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+
+/* ===========================================================================================
+                                            ABOUT
+============================================================================================ */
+
+.topcontent {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('IMG-0.jpg'); 
+    background-size: cover;      /* ให้ภาพขยายเต็มพื้นที่ */
+    background-position: center; /* จัดภาพให้อยู่ตรงกลาง */
+    background-repeat: no-repeat;
+    
+    /* กำหนดความสูงให้เท่ากับหน้าจอพอดี */
+    height: 25vh; 
+    
+    /* จัดเนื้อหาภายในให้อยู่กึ่งกลาง */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.topcontent-info h3 {
+    font-size: 3rem; /* ปรับขนาดตัวอักษรให้ใหญ่ขึ้นตามหน้าแรก */
+    text-align: center;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5); /* เพิ่มเงาให้ตัวหนังสืออ่านง่ายขึ้น */
+}
+
+.menu li a.active {
+    color: #eb7a08; 
+}
+
+.detail-objective, .detail-expected {
+    padding: 2rem 0;
+    max-width: 1200px; /* เพิ่มความกว้างจาก 1200px เป็น 1400px เพื่อให้กล่องมีพื้นที่กางออก */
+    margin: 0 auto;
+}
+
+/* จัดการ Layout ให้เป็นระเบียบ */
+.grid-container {
+    display: flex; /* ใช้ flex แทน grid จะคุมระยะห่างง่ายกว่าในกรณีนี้ */
+    justify-content: space-between; /* กระจายกล่องให้ห่างกัน */
+    gap: 30px; /* เพิ่มระยะห่างระหว่างกล่อง (ปรับเพิ่มได้ตามใจชอบ) */
+    margin-top: 30px;
+}
+
+/* ตกแต่งการ์ด Objective */
+.cards {
+    flex: 1; /* ให้ทุกกล่องขยายเท่าๆ กัน */
+    background: #f9f9f9;
+    
+    /* หัวใจสำคัญ: จัดกึ่งกลางแนวตั้ง */
+    display: flex;
+    flex-direction: column; /* เรียงเนื้อหาจากบนลงล่าง */
+    justify-content: center; /* ดันเนื้อหาให้อยู่กึ่งกลางแนวตั้ง (บน-ล่าง) */
+    align-items: flex-start; /* บังคับให้เนื้อหาชิดซ้ายเสมอ */
+    
+    min-height: 150px; /* กำหนดความสูงขั้นต่ำเพื่อให้เห็นว่ามันอยู่กึ่งกลางจริงๆ */
+    padding: 20px 30px; /* 20px คือบนล่าง, 30px คือซ้ายขวา (กันตัวหนังสือชิดขอบซ้ายเกินไป) */
+    
+    border-radius: 12px;
+    border-left: 6px solid #070da1;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+
+.cards p {
+    margin: 1; /* ตัด margin ของ p ออก เพื่อไม่ให้เบี้ยว */
+    text-align: left; /* ย้ำว่าชิดซ้าย */
+    line-height: 1.5; /* เพิ่มระยะห่างระหว่างบรรทัดให้อ่านง่ายขึ้น */
+    color: #444;
+}
+
+.detail-expected .cards strong {
+    display: block;      /* เปลี่ยนให้เป็นบล็อกเพื่อครองพื้นที่เต็มแถว */
+    width: 100%;         /* ขยายเต็มความกว้างกล่อง */
+    text-align: left;    /* สั่งชิดซ้าย */
+    margin-bottom: 8px;  /* ระยะห่างจากคำอธิบายด้านล่าง */
+    color: #070da1;      /* สีน้ำเงินเดียวกับเส้นขอบ */
+}
+
+.detail-expected .cards p {
+    width: 100%;         /* บังคับเนื้อหาชิดซ้ายด้วยเช่นกัน */
+    text-align: left;
+    margin: 0;
+}
+.cards:hover {
+    transform: translateY(-5px);
+}
+
+
+/* ===========================================================================================
+                                            METHOD
+============================================================================================ */
+.topmed {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('IMG-0.jpg'); 
+    background-size: cover;      /* ให้ภาพขยายเต็มพื้นที่ */
+    background-position: center; /* จัดภาพให้อยู่ตรงกลาง */
+    background-repeat: no-repeat;
+    
+    /* กำหนดความสูงให้เท่ากับหน้าจอพอดี */
+    height: 25vh; 
+    
+    /* จัดเนื้อหาภายในให้อยู่กึ่งกลาง */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.topmed-info h3 {
+    font-size: 3rem; /* ปรับขนาดตัวอักษรให้ใหญ่ขึ้นตามหน้าแรก */
+    text-align: center;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5); /* เพิ่มเงาให้ตัวหนังสืออ่านง่ายขึ้น */
+}
+
+/*    theory    */
+.detail-theory{
+    background-color: #eeeadd;
+}
+.theory-container{
+    padding-top: 2rem;
+    padding-left: 3rem;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+.theory-container h1{
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.header-row { /* หัวข้อและตัวเลขในกรอบ */
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header-row h2{
+    font-size: 1.5rem;
+    color: #5a310b;
+}
+
+.number-box {
+    background-color: #5a310b;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 8px;
+    margin-right: 15px;
+    font-weight: bold;
+}
+
+/*gamma interaction*/
+.grid-3-column { /* คำสั่งจัดเรียง 3 คอลัมน์ */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* แบ่ง 3 ส่วนเท่ากัน */
+    gap: 0.5rem; /* ระยะห่างระหว่างกล่อง */
+    justify-items: center;
+}
+
+.card {   /* สไตล์ของแต่ละกล่อง */
+    background: #f2f7fa;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.05);
+    width: 400px;
+    margin-bottom: 2rem;
+    align-items: center;
+}
+
+.card h3 {
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    margin-top: 12px;
+}
+
+.img-container img {
+    width: 100%;
+    height: 50%;
+    object-fit: cover; /* ทำให้รูปเต็มกล่องโดยไม่เสียสัดส่วน */
+    display: block;
+}
+
+.lines p{
+    margin-top: 1rem;
+    width: 80%;          /* ให้พารากราฟกว้างเต็มขนาดของ Card */
+    line-height: 1.5;     /* เพิ่มระยะห่างระหว่างบรรทัดให้อ่านง่ายขึ้น */
+    text-align: center;  
+    align-items: center;     
+    margin-left: 1.9rem;
+    text-align:centers;
+    margin-bottom: 1.5rem;
+    color: #444;
+}
+
+/* 1. เมื่อเราเอาเมาส์วางในพื้นที่กลุ่ม Card ทั้งหมด (กล่องแม่) 
+      สั่งให้ Card ทุกใบหม่นลงก่อน */
+.grid-3-column:hover .card {
+    filter: brightness(0.88); 
+    transition: 0.3s;        
+}
+
+/* 2. จากนั้น สั่งเฉพาะ Card ใบที่เราเอาเมาส์ไปชี้ (Hover) 
+      ให้สว่างขึ้นมาเป็นปกติ หรือสว่างกว่าเดิม */
+.grid-3-column:hover .card:hover {
+    filter: brightness(1.1); 
+    transform: translateY(-5px); /* แถม: ให้กล่องลอยขึ้นเล็กน้อยเพื่อให้ดูเด่น */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15); 
+}
+
+/*transmission*/
+.slider-container {   /* คอนเทนเนอร์สำหรับสไลด์ */
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 600px; /* กำหนดความกว้างที่ต้องการ */
+}
+
+.trans-img {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.slide {
+    border-radius: 15px;
+    display: none; /* ซ่อนทุกรูปไว้ก่อน */
+    width: 80%;    /* ปรับขนาดรูปตามต้องการ */
+    height: auto;
+}
+
+.prev-btn, .next-btn {  /* ปุ่มลูกศร */
+    background-color: rgba(0,0,0,0.1);
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.prev-btn:hover, .next-btn:hover {
+    background-color: #4a332d;
+    color: white;
+}
+
+.flex-trans {  /* กล่องแม่ที่คุมทั้งรูปและข้อความ */
+    border-radius: 15px;
+    display: flex;
+    align-items: center;      /* จัดให้อยู่กึ่งกลางในแนวตั้ง (Vertical Center) */
+    gap: 2rem;                /* กำหนดระยะห่างระหว่างรูปกับข้อความ (ปรับลดได้ตามชอบ) */
+    margin-left: 3rem;
+    margin-bottom: 2rem;
+}
+
+.lines-trans {      /* ส่วนของข้อความ */
+    flex: 0 1 600px;                /* ให้พื้นที่ฝั่งข้อความกว้างกว่ารูปเล็กน้อย */
+    margin-right: 10rem;
+}
+
+.lines-trans p {
+    text-align: justify;      /* จัดข้อความให้ขอบซ้าย-ขวาตรงกัน */
+    text-indent: 2em;
+    line-height: 1.6;
+}
+
+/*distillation column*/
+/* ทำให้รูปภาพทุกรูปใน Slider มน */
+.slide2 {
+    border-radius: 20px; /* ปรับระดับความมนตามใจชอบ */
+    display: block;
+    margin: 0 auto;     /* จัดรูปให้อยู่กึ่งกลาง */
+}
+
+.column-img {
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;      /* ช่วยเรื่องการจัดวางรูป */
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-column {  /* กล่องแม่ที่คุมทั้งรูปและข้อความ */
+    display: flex;
+    align-items: center;      /* จัดให้อยู่กึ่งกลางในแนวตั้ง (Vertical Center) */
+    gap: 2rem;                /* กำหนดระยะห่างระหว่างรูปกับข้อความ (ปรับลดได้ตามชอบ) */
+    margin-left: 3rem;
+    margin-bottom: 2rem;
+}
+.text-container {
+    flex: 0.78;                /* ให้พื้นที่ฝั่งข้อความขยายเต็มที่ */
+    padding-left: 20px;     /* ระยะห่างจากรูปภาพ */
+}
+
+.info-group {
+    margin-bottom: 25px;    /* ระยะห่างระหว่างกลุ่ม (Reboiler, Condenser, Tray) */
+}
+
+.info-group h3 {
+    margin: 0 0 5px 0;      /* เอา margin บนออก และเว้นระยะล่างเล็กน้อยก่อนถึงเนื้อหา */
+    font-size: 1.2rem;
+    font-weight: bold;      /* ทำให้หัวข้อเป็นตัวหนา */
+}
+
+.info-group p {
+    margin: 0;              /* เอา margin มาตรฐานของ p ออกเพื่อคุมระยะเอง */
+    line-height: 1.5;       /* ระยะห่างระหว่างบรรทัดให้อ่านง่าย */
+    text-align: justify;    /* จัดขอบข้อความให้เท่ากันตามที่คุณเคยต้องการ */
+}
+
+/* --- Counting System Layout --- */
+
+/* ส่วนรายละเอียดอุปกรณ์ด้านบน */
+.counting-details-top {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    align-items: stretch; /* ให้ความสูงกล่องเท่ากันเสมอ */
+}
+/* ปรับกล่อง Radiation Source ให้กว้างขึ้นเพื่อรองรับข้อความยาวๆ */
+.info-card-detail:first-child {
+    flex: 0 0 52%; 
+}
+.info-card-detail {
+    color: #444;
+    flex: 1;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border-left: 5px solid #070da1;
+}
+
+.bullet-list {
+    padding-left: 20px;
+    list-style-type: disc !important; /* บังคับให้แสดงจุดกลม */
+}
+
+.bullet-list li {
+    margin-bottom: 8px;
+    margin-top: 4px;
+    font-size: 1rem;
+    display: list-item; /* บังคับการแสดงผล */
+}
+
+/* ส่วนรูปไดอะแกรม */
+.diagram-wrapper {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.diagram-card {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    display: inline-block; 
+    width: 100%;
+}
+
+.diagram-card img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ส่วนคำอธิบาย (นอกกรอบ) */
+.counting-desc-outside {
+    padding-top: 2rem;
+    text-align: center;
+    line-height: 1.5;
+    padding: 0 15px;
+    padding-bottom: 5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .counting-details-top {
+        flex-direction: column;
+    }
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/*    equipment    */
+.detail-equip{
+    background-color: rgb(241, 241, 241);
+}
+.equip-container{
+    padding-top: 2rem;
+    padding-left: 3rem;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+.equip-container h1{
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.header-item h2{
+    align-content: center;
+    font-size: 1.5rem;
+    color:#5a310b;
+}
+
+.carousel-viewport {
+    overflow: hidden;
+    width: 100%;
+    perspective: 1000px; /* เพิ่มมิติความลึก */
+    padding: 50px 0;
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel-track {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.5s ease;
+    gap: 10px;
+}
+
+.equip-card {
+    min-width: 250px;
+    background-color: #eeeadd; 
+    color: black;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.5s ease;
+    opacity: 0.7;
+    filter: brightness(0.7);
+    transform: scale(0.75); /* ใบข้างๆ จะเล็กลง */
+}
+
+/* การ์ดที่อยู่ตรงกลาง (Active) */
+.equip-card.active {
+    opacity: 1;
+    filter: brightness(1);    /* สว่างปกติเมื่อ Active */
+    transform: scale(1.3);
+    z-index: 10;
+}
+/* เจาะจงเฉพาะรูปที่อยู่ใน card-content */
+.card-content img {
+    max-width: 45%;      
+    height: auto;         /* บังคับให้อัตราส่วนคงที่เสมอ ภาพไม่เบี้ยว */
+}
+#lll {
+    width: 430px; 
+    height: auto; 
+    max-height: 500px; 
+    object-fit: contain;
+}
+.card-content p {
+    color: #444;       
+    font-size: 0.85rem;   
+    margin-top: 5px;      /* เว้นระยะห่างจากรูปภาพด้านบน */
+}
+
+.equip-card img {
+    width: 100%;
+    border-radius: 5px;
+    margin: 5px 0;
+}
+
+/* ปุ่มกด */
+.carousel-controls {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin-top: 15px;
+}
+
+.btn-prev, .btn-next {
+    padding: 10px 15px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.card-content p{
+    font-size: 0.9rem;
+}
+
+.btn-prev { background-color: #88bcea; color: rgb(255, 255, 255); border-radius: 5px 0 0 5px; }
+.btn-next { background-color: #5e9ae4; color: rgb(255, 255, 255); border-radius: 0 5px 5px 0; }
+
+
+/* ===========================================================================================
+                                            EXPERIMENT
+============================================================================================ */
+.topresult {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('IMG-0.jpg'); 
+    background-size: cover;      /* ให้ภาพขยายเต็มพื้นที่ */
+    background-position: center; /* จัดภาพให้อยู่ตรงกลาง */
+    background-repeat: no-repeat;
+    
+    height: 25vh;  /* กำหนดความสูงให้เท่ากับหน้าจอพอดี */
+    
+    display: flex; /* จัดเนื้อหาภายในให้อยู่กึ่งกลาง */
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.topresult-info h3 {
+    font-size: 3rem; /* ปรับขนาดตัวอักษรให้ใหญ่ขึ้นตามหน้าแรก */
+    text-align: center;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5); /* เพิ่มเงาให้ตัวหนังสืออ่านง่ายขึ้น */
+}
+
+ /*    EXPERIMENTAL RESULTS PAGE LAYOUT   */
+.header-item {
+    display: flex;          /* บังคับให้เรียงต่อกันแนวนอน */
+    align-items: center;    /* จัดให้ตัวเลขกับข้อความอยู่กึ่งกลางบรรทัดเดียวกัน */
+    gap: 15px;              /* ระยะห่างระหว่างตัวเลขกับข้อความ */
+    margin-bottom: 20px;
+}
+
+.header-item h2 {
+    margin: 0;              /* ล้างค่า margin พื้นฐานที่อาจจะทำให้ตำแหน่งเพี้ยน */
+    display: inline;        /* หรือใช้ inline-block เพื่อไม่ให้จองเต็มบรรทัด */
+}
+
+.results-page .container {
+    padding-top: 3rem;
+    padding-left: 1.8rem;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+/* --- Section 1: Setup --- */
+.exp-setup-section h2{
+    font-size: 2rem;
+}
+.setup-container {
+    text-align: center;
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 50px;
+}
+
+.main-setup-img img {
+    max-width: 80%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.setup-desc {
+    font-style: italic;
+    color: #666;
+}
+
+/* --- Section 2: Accuracy --- */
+.accuracy-card {
+    display: flex;
+    gap: 30px;
+    background: #efdcc6;
+    padding: 25px;
+    border-radius: 15px;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.accuracy-card img {
+    flex: 1;
+    max-width: 50%;
+    border-radius: 8px;
+}
+
+.accuracy-info {
+    flex: 1;
+}
+
+/* --- Section 3: Density Profile Analysis --- */
+.analysis-comparison-grid {
+    display: flex;
+    gap: 20px;
+    align-items: stretch;
+}
+
+.comparison-column {
+    flex: 1;
+    display: flex;
+}
+
+.tray-case {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    border-top: 4px solid #02066f;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.tray-case h3 {
+    margin-bottom: 20px;
+    color: #000;
+}
+
+/* --- Image Layout Logic --- */
+.image-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.large-graph {
+    flex: 2.5; /* กราฟกว้างกว่า */
+    height: 220px;
+    object-fit: contain;
+    background: #fdfdfd;
+    border: 1px solid #eee;
+    border-radius: 8px;
+}
+
+.mini-photo {
+    flex: 1; /* ถาดแคบกว่า */
+    height: 220px; /* สูงเท่ากราฟ */
+    object-fit: cover;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+/* --- Content Styling --- */
+.tray-description h4 {
+    color: #cd3737;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+}
+
+.tray-description p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #444;
+    min-height: 4.8em; /* เว้นที่ไว้ประมาณ 3 บรรทัด */
+    text-align: justify;
+}
+
+/* --- Case Selector (Tabs) --- */
+.case-selector {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.case-btn {
+    padding: 8px 16px;
+    border: none;
+    background: #ffebeb;
+    cursor: pointer;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #555;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+}
+
+.case-btn:hover {
+    background: #f7d5d5;
+}
+
+.case-btn.active {
+    background: #cd3737;
+    color: #fff;
+}
+
+/* --- Tab Logic & Animation --- */
+.case-content {
+    display: none;
+    animation: fadeIn 0.4s ease forwards;
+}
+
+.case-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Responsive Layout --- */
+@media (max-width: 992px) {
+    .analysis-comparison-grid {
+        flex-direction: column;
+    }
+    
+    .large-graph, .mini-photo {
+        height: 180px; /* ปรับลดความสูงบนมือถือ */
+    }
+}
+
+/* ===========================================================================================
+                                            SIMULATION
+============================================================================================ */
+
+.sim-content {
+    max-width: 1300px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.sim-header h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.sim-header p {
+    color: #555;
+    max-width: 800px;
+    margin-bottom: 30px;
+}
+
+/* ===== MAIN SIM LAYOUT ===== */
+/* จัดการให้กราฟอยู่ซ้าย และชุดควบคุมอยู่ขวา */
+.sim-layout {
+    display: flex;
+    gap: 50px; /* ระยะห่างระหว่างกราฟกับแผงควบคุม */
+    align-items:start;
+    align-content: center;
+}
+
+.graph-section {
+    flex: 1; /* ให้กราฟกินพื้นที่ที่เหลือทั้งหมด */
+    min-width: 600px; /* กำหนดความกว้างขั้นต่ำของกราฟให้มากขึ้น */
+}
+/* ฝั่งซ้าย: กราฟ */
+#countGraph {
+    height: 600px; /* ความสูงตามที่คุณตั้งไว้ */
+}
+
+/* Info Panel - แนวตั้ง */
+.info-sim.vertical {
+    display: grid;              /* ใช้ระบบ Grid */
+    grid-template-columns: 1fr 1fr; /* แบ่งเป็น 2 คอลัมน์ ขนาดเท่ากัน */
+    gap: 15px;                  /* ระยะห่างระหว่างกล่อง */
+    width: 100%;                /* ให้ขยายเต็มพื้นที่ฝั่งขวา */
+    max-width: 500px;
+}
+
+.info-box {
+    background: #ecd3bb; /* สีครีมตามรูป */
+    padding: 20px; /* เพิ่ม padding บน-ล่างให้กล่องดูใหญ่ขึ้นตามรูป */
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.info-box.box-status {
+    background-color: #d5dce7;
+    color: #109347;
+}
+
+.info-box.box-bg {
+    background-color: #d5dce7;
+}
+
+/* ปรับสีตัวอักษรของหัวข้อข้างในกล่องเหล่านี้ให้เข้มขึ้นเล็กน้อยเพื่อให้ตัดกับสีพื้นใหม่ */
+.info-box.box-status h3, .info-box.box-bg h3 {
+    color: #444;
+}
+
+.info-box h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.info-box p {
+    font-size: 22px;
+    font-weight: 500;
+    margin: 0;
+}
+.status p{
+    color: rgb(1, 82, 44);
+}
+
+/* ===== Control Buttons Group ===== */
+/* จัดปุ่มให้เรียงกัน 4 ปุ่มด้านล่าง */
+.control-btn {
+    grid-column: span 2; /* สั่งให้ครอบคลุมพื้นที่ทั้ง 2 คอลัมน์ของ Grid */
+    display: flex;
+    flex-wrap: nowrap;   /* เรียงแถวเดียว */
+    justify-content: space-between; /* กระจายปุ่มให้เต็มพื้นที่ */
+    gap: 2px;           /* ระยะห่างระหว่างปุ่ม */
+    margin-top: 10px;    /* ระยะห่างจากกล่องข้อมูลด้านบน */
+    width: 100%;
+}
+
+.btn {
+    padding: 10px 25px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+/* สีปุ่มตามรูป */
+.btn.start { background: #3069bd; color: white; }
+.btn.stop  { background: #cd3737; color: white; }
+.btn.reset { background: #f2d555; color: #333; }
+.btn.save  { background: #dcdcdc; color: #333; }
+.btn.export { background: #2ecc71; color: white;}
+
+/* Hover Effects */
+.btn.start:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,114,255,0.35);
+}
+.btn.stop:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(221,36,118,0.35);
+}
+.btn.reset:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255,210,0,0.4);
+}
+.btn.save:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(25, 25, 23, 0.4);
+}
+.btn.export:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(5, 137, 18, 0.4);
+}
