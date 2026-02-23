@@ -995,15 +995,28 @@ html {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- Responsive Layout --- */
-@media (max-width: 992px) {
-    .analysis-comparison-grid {
-        flex-direction: column;
-    }
+/* --- ส่วนนี้สำหรับมือถือ (หน้าจอเล็กกว่า 768px) --- */
+@media (max-width: 768px) {
     
-    .large-graph, .mini-photo {
-        height: 180px; /* ปรับลดความสูงบนมือถือ */
+    /* ให้ Container หลักที่เคยแบ่งซ้ายขวา เปลี่ยนมาเรียงบนลงล่าง */
+    .tray-grid, 
+    .analysis-comparison-grid, 
+    .image-wrapper {
+        flex-direction: column !important;
+        gap: 15px;
     }
+
+    /* ปรับความกว้างของรูปให้เต็มจอพอดี ไม่ล้นออกข้าง */
+    .large-graph, 
+    .mini-photo {
+        width: 100% !important;
+        flex: none !important;
+        height: auto !important; /* ให้สูงตามสัดส่วนรูปจริง */
+    }
+
+    /* ปรับขนาดตัวอักษรให้อ่านง่ายขึ้นในมือถือ */
+    h2 { font-size: 1.5rem; }
+    p { font-size: 1rem; }
 }
 
 /* ===========================================================================================
