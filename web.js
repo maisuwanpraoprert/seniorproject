@@ -51,57 +51,109 @@ function initGraphs() {
   });
 }
 
+
 /***************************************
- * FETCH DATA & SAVE TO DATABASE
+ * 1. เพิ่มฟังก์ชัน ANIMATION (ถ้าไม่มีอันนี้ เลขจะไม่วิ่ง)
+ ***************************************/
+function animateValue(id, start, end, duration) {
+    const obj = document.getElementById(id);
+    if (!obj) return;
+    let startTimestamp = null;
+    const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        obj.innerText = (progress * (end - start) + start).toFixed(2);
+        if (progress < 1) {
+            window.requestAnimationFrame(step);
+        }
+    };
+    window.requestAnimationFrame(step);
+}
+
+/***************************************
+ * 2. แก้ไขส่วน FETCH DATA
  ***************************************/
 async function fetchESP32Data() {
     try {
-      const res = await fetch(`${ESP32_IP}/data`);
-      const data = await res.json();
+        const res = await fetch(`${ESP32_IP}/data`);
+        const data = await res.json();
 
-      if (data.bgRate !== undefined) {
-          document.getElementById('bg-rate').innerText = data.bgRate.toFixed(2);
-      }
-  
-      // 🔥 1. เช็กว่าบอร์ดสแกนเสร็จหรือยัง ถ้าเสร็จแล้วให้หยุดดึงข้อมูลทันที!
-      if (data.status === "idle") {
-        stopScan(); // หยุด setInterval
-        document.getElementById('status').innerText = "Completed";
-        document.getElementById('counts').innerText = "--"; 
-        return; // จบการทำงาน ไม่ต้องพล็อตกราฟต่อ
-      }
-  
-      if (data.currentHeight === undefined) return;
-  
-      // 2. แสดงผลหน้าจอแบบ Real-time
-      document.getElementById('height').innerText = data.currentHeight;
-      document.getElementById('counts').innerText = data.liveRaw; 
-      document.getElementById('status').innerText = "Scanning...";
-  
-      // 3. ลอจิกบันทึกกราฟ (บันทึกเฉพาะจุดที่นับเสร็จแล้วเท่านั้น)
-      if (data.finalHeight !== -1 && data.finalHeight !== currentScanHeight) {
-          currentScanHeight = data.finalHeight;
-          let finalNet = data.finalNetCount;
-  
-          heightData.push(currentScanHeight);
-          countData.push(finalNet);
-  
-          Plotly.extendTraces('countGraph', {
-            x: [[finalNet]],
-            y: [[currentScanHeight]]
-          }, [0], 100);
-  
-          db.collection("scan_results").add({
-            sessionId: currentSessionId,
-            height: currentScanHeight,
-            counts: finalNet,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-          });
-      }
-  
+        // ประกาศตัวแปรอ้างอิง DOM
+        const countsElement = document.getElementById('counts');
+        const statusElement = document.getElementById('status');
+        const bgElement = document.getElementById('bg-rate');
+        const heightElement = document.getElementById('height');
+
+        // 1. อัปเดตค่า Background Rate (เลขวิ่งเสมอเพื่อให้รู้ว่าเชื่อมต่ออยู่)
+        if (data.bgRate !== undefined && bgElement) {
+            const currentValue = parseFloat(bgElement.innerText) || 0;
+            if (Math.abs(data.bgRate - currentValue) > 0.01) {
+                animateValue('bg-rate', currentValue, data.bgRate, 1000);
+            }
+        }
+
+        // 2. จัดการสถานะตามที่ได้รับจากบอร์ด
+        
+        // สถานะ IDLE: แยกเป็น "รอกดปุ่มที่จอ" กับ "สแกนเสร็จแล้ว"
+        if (data.status === "idle") {
+            if (heightData.length === 0) {
+                // ยังไม่มีข้อมูลในกราฟ = รอกดปุ่มที่บอร์ด
+                statusElement.innerText = "Waiting for LCD Setup...";
+                countsElement.innerText = "0";
+            } else {
+                // มีข้อมูลแล้ว = สแกนเสร็จ มอเตอร์กลับบ้านแล้ว
+                stopScan();
+                statusElement.innerText = "Completed";
+                countsElement.innerText = "--";
+            }
+            return; // จบรอบการทำงาน
+        }
+
+        // สถานะ MEASURING BG: กำลังนับถอยหลัง 20 วินาทีที่หน้าจอ
+        if (data.status === "measuring_bg") {
+            statusElement.innerText = "Measuring Background...";
+            countsElement.innerText = "0"; // ล็อกค่า Net Count เป็น 0
+            heightElement.innerText = "0";
+            return; 
+        }
+
+        // สถานะ SCANNING: เริ่มสแกนจริง
+        if (data.status === "scanning") {
+            statusElement.innerText = "Scanning...";
+
+            if (data.currentHeight !== undefined) {
+                heightElement.innerText = data.currentHeight;
+            }
+        }
+
+        // 3. ลอจิกบันทึกข้อมูลและพล็อตกราฟ (เมื่อวัดที่ความสูงนั้นๆ เสร็จ)
+        if (data.finalHeight !== -1 && data.finalHeight !== currentScanHeight) {
+              currentScanHeight = data.finalHeight;
+              let finalNet = data.finalNetCount;
+
+              // ✅ แสดง net count ของความสูงนี้
+              countsElement.innerText = finalNet;
+              heightElement.innerText = currentScanHeight;
+
+              heightData.push(currentScanHeight);
+              countData.push(finalNet);
+
+              Plotly.extendTraces('countGraph', {
+                  x: [[finalNet]],
+                  y: [[currentScanHeight]]
+              }, [0]);
+
+              db.collection("scan_results").add({
+                  sessionId: currentSessionId,
+                  height: currentScanHeight,
+                  counts: finalNet,
+                  timestamp: firebase.firestore.FieldValue.serverTimestamp()
+              });
+          }
+
     } catch (err) {
-      console.error("ESP32 connection error", err);
-      document.getElementById('status').innerText = "Reconnecting...";
+        console.error("Connection Error:", err);
+        document.getElementById('status').innerText = "Reconnecting...";
     }
 }
 
@@ -119,7 +171,6 @@ function startScan() {
   
   initGraphs();
 
-  fetch(`${ESP32_IP}/start`).catch(e => console.log("Start trigger error", e));
   
   // สั่งดึงข้อมูลทุกๆ 1 วินาที
   scanInterval = setInterval(fetchESP32Data, 1000);

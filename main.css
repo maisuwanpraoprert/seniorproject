@@ -113,9 +113,10 @@ ul li:hover ul.dropdown {
     display: block;
 }
 
+
 /***** ส่วนบน *****/
 .maincontent{
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://www.gustawater.com/update/blog/distillation/distillation-column.jpg');
+    background: linear-gradient(rgba(0,0,0,0.7)), url('https://www.gustawater.com/update/blog/distillation/distillation-column.jpg');
     background-size: cover;
     background-position: center;
     color: white;
@@ -143,7 +144,7 @@ ul li:hover ul.dropdown {
 }
 
 .maincontent-info .maincontent-btn{
-    background-color: #422c42;
+    background-color: #673567;
     color: #fff;
     padding: 1rem;
     border-radius: 6px;
@@ -1152,4 +1153,263 @@ html {
 .btn.export:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 20px rgba(5, 137, 18, 0.4);
+}
+
+/* ===========================================================================================
+                                RESPONSIVE DESIGN (Media Queries)
+============================================================================================ */
+
+/* --- แท็บเล็ตและหน้าจอขนาดกลาง (ต่ำกว่า 1100px) --- */
+@media (max-width: 1100px) {
+    .container, .theory-container, .equip-container, .results-page .container, .sim-content {
+        max-width: 95%;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .grid-3-column {
+        grid-template-columns: repeat(2, 1fr); /* ปรับเหลือ 2 คอลัมน์ */
+    }
+
+    .card {
+        width: 100%; /* ให้การ์ดขยายเต็มคอลัมน์ */
+    }
+
+    .maincontent-info h3 {
+        font-size: 3rem;
+    }
+}
+
+/* --- มือถือมาตรฐาน (ต่ำกว่า 768px) --- */
+@media (max-width: 768px) {
+    
+    /* Navigation */
+    .nav-con {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .menu {
+        margin-top: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .menu li {
+        margin: 0.5rem 1rem;
+    }
+
+    /* Main Content (หน้าแรก) */
+    .maincontent-con {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .maincontent-info {
+        width: 100%;
+        margin-left: 0;
+        padding: 2rem 1rem;
+    }
+
+    .maincontent-img {
+        width: 100%;
+        padding-left: 0;
+        margin-top: 2rem;
+        display: flex;
+        justify-content: center;
+    }
+
+    .rounded-img {
+        width: 80%;
+    }
+
+    /* Content Grid (หน้าแรก) */
+    .content-con {
+        grid-template-columns: 1fr; /* เรียงแถวเดียว */
+        margin: 2rem 1rem;
+        gap: 3rem;
+    }
+
+    /* About Page: Grid Container */
+    .grid-container {
+        flex-direction: column;
+    }
+
+    /* Method Page: Theory Cards */
+    .grid-3-column {
+        grid-template-columns: 1fr; /* เรียงแถวเดียว */
+    }
+
+    /* Method Page: Flex Layouts (Transmission / Column) */
+    .flex-trans, .flex-column {
+        flex-direction: column;
+        margin-left: 0;
+        text-align: center;
+    }
+
+    .lines-trans, .text-container {
+        margin-right: 0;
+        padding: 1rem;
+    }
+
+    .slider-container {
+        width: 100%;
+    }
+
+    /* Results Page: Accuracy Card & Comparison */
+    .accuracy-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .accuracy-card img {
+        max-width: 100%;
+    }
+
+    .analysis-comparison-grid {
+        flex-direction: column;
+    }
+
+    .image-wrapper {
+        flex-direction: column;
+    }
+
+    /* Simulation Layout */
+    .sim-layout {
+        flex-direction: column;
+    }
+
+    .graph-section {
+        min-width: 100%;
+    }
+
+    #countGraph {
+        height: 400px; /* ลดความสูงกราฟในมือถือ */
+    }
+
+    .info-sim.vertical {
+        max-width: 100%;
+    }
+
+    /* จัดเลย์เอาท์หลักให้เรียงกันเป็นแนวตั้ง */
+    .sim-layout {
+        display: flex;
+        flex-direction: column; 
+        gap: 20px;
+    }
+
+    /* ปรับส่วนกราฟให้เล็กลงในมือถือ เพื่อไม่ให้บังส่วนอื่น */
+    .graph-section {
+        width: 100%;
+        min-width: unset; /* ล้างค่า min-width เดิมออก */
+        order: 1;         /* ให้กราฟอยู่บนสุด */
+    }
+
+    #countGraph {
+        height: 300px !important; /* บังคับความสูงกราฟให้ลดลงเหลือ 300px */
+    }
+
+    /* ปรับส่วนกล่องข้อมูล (Status/BG) */
+    .info-sim.vertical {
+        order: 2;         /* ให้กล่องข้อมูลตามลงมา */
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* แบ่ง 2 คอลัมน์เหมือนเดิมแต่ให้พอดีจอ */
+        gap: 10px;
+        width: 100%;
+    }
+
+    .info-box {
+        padding: 10px;    /* ลด padding ลงเพื่อให้ประหยัดพื้นที่ */
+    }
+
+    .info-box h3 {
+        font-size: 16px;  /* ลดขนาดหัวข้อ */
+    }
+
+    .info-box p {
+        font-size: 18px;  /* ลดขนาดตัวเลข */
+    }
+
+    .btn {
+        width: 100%;
+        padding: 12px;
+    }
+}
+
+/* --- มือถือขนาดเล็ก (ต่ำกว่า 480px) --- */
+@media (max-width: 480px) {
+    .maincontent-info h3 {
+        font-size: 2.2rem;
+    }
+
+    .logo a {
+        font-size: 1.5rem;
+        margin-left: 0;
+    }
+
+    .menu li a {
+        font-size: 1rem;
+    }
+
+    .info-sim.vertical {
+        grid-template-columns: 1fr; /* กล่องสถานะเรียงแถวเดียว */
+    }
+
+    .control-btn {
+        flex-wrap: wrap; /* ปุ่มกดให้ตกบรรทัดได้ */
+        gap: 10px;
+    }
+
+    .btn {
+        width: 48%; /* ปุ่มเรียงคู่ */
+        padding: 10px 5px;
+        font-size: 0.9rem;
+    }
+
+    .footer-top-con {
+        grid-template-columns: 1fr;
+        margin-left: 0;
+        text-align: center;
+    }
+
+    .footer-top-item p {
+        padding-top: 1rem;
+    }
+}
+
+/* เพิ่มเติมเพื่อให้รองรับการแตะบนมือถือ */
+.tray-img img.active-expand {
+    flex: 5; /* ปรับค่าตามความใหญ่ที่ต้องการเมื่อแตะ */
+    z-index: 10;
+}
+
+.sol-img img.active-expand {
+    flex: 3; /* ปรับค่าตามความใหญ่ที่ต้องการสำหรับส่วน solution */
+    z-index: 10;
+}
+
+/* ป้องกันปัญหาการค้างของ Hover บนมือถือบางรุ่น */
+@media (hover: none) {
+    .tray-img img:hover, .sol-img img:hover {
+        flex: 1; /* ปิด hover ปกติบนมือถือ ให้ใช้ระบบแตะแทน */
+    }
+}
+
+/* --- Media Query สำหรับมือถือ (จุดที่พังในรูป) --- */
+@media (max-width: 768px) {
+    .footer-top-con {
+        grid-template-columns: 1fr; /* เปลี่ยนเป็น 1 คอลัมน์ (เรียงบนลงล่าง) */
+        gap: 2rem;
+        text-align: center;         /* จัดข้อความกึ่งกลางเพื่อให้ดูง่ายในมือถือ */
+    }
+
+    .footer-top-item p {
+        padding-top: 0.5rem;
+        text-align: center;         /* จัดคำอธิบายให้อยู่กึ่งกลางตามหัวข้อ */
+    }
+
+    .footer-top-item-con {
+        margin: 0;                  /* ล้าง margin ที่อาจจะดันขอบ */
+    }
 }

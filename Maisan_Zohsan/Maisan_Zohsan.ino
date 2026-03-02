@@ -18,7 +18,7 @@ const int m2_dir = 23;
 const int m2_ena = 13; 
 
 const int radiationPin = 16;
-const int btnUp = 12, btnDown = 14, btnSelect = 25, btnReset = 26; 
+const int btnUp = 12, btnDown = 14, btnSelect = 25, btnReset = 26, btnBack = 32; 
 
 volatile long pulseCount = 0;
 volatile unsigned long lastPulseTime = 0;
@@ -31,7 +31,7 @@ void IRAM_ATTR countPulse() {
 }
 
 const int stepsPerCm = 4000; 
-const int SPEED_CONSTANT = 1000; 
+const int SPEED_CONSTANT = 500; 
 float bgCPS = 0.0; 
 
 int High[2]={0,0}, Step[2]={0,0}, Start[2]={0,0}, timerValues[4]={0,0,0,0};
@@ -50,6 +50,7 @@ int currentScanningCm = 0;
 bool webCommandStart = false;
 int lastFinishedHeight = -1; 
 long lastFinishedNetCount = 0;
+bool isMeasuringBG = false;
 
 
 /* -------- WEB API HANDLERS -------- */
@@ -61,33 +62,40 @@ void sendCORS() {
 
 void handleStart() {
   sendCORS();
-  if(!summaryDone) {
-    // ตั้งค่า Default กรณีสั่งเริ่มจากเว็บทันที
-    Allvalue[0] = 50; Allvalue[1] = 2; Allvalue[2] = 0; Allvalue[3] = 10;
-    summaryDone = true; setvalue = true;
-    webCommandStart = true;
-    server.send(200, "text/plain", "WEB_START_OK");
-  } else {
-    server.send(200, "text/plain", "ALREADY_RUNNING");
-  }
+  server.send(200, "text/plain", "GRAPH_ONLY_MODE");
 }
 
 void handleData() {
   sendCORS();
+
   String json = "{";
+
+  // 🟢 PRIORITY 1: กำลังวัด BG
+  if (isMeasuringBG) {
+    json += "\"status\":\"measuring_bg\",";
+  }
+  // 🟢 PRIORITY 2: ยังไม่เริ่มงาน
+  else if (!summaryDone) {
+    json += "\"status\":\"idle\",";
+  }
+  // 🟢 PRIORITY 3: กำลังสแกน
+  else {
+    json += "\"status\":\"scanning\",";
+  }
+
+  json += "\"bgRate\":" + String(bgCPS) + ",";
   json += "\"currentHeight\":" + String(currentScanningCm) + ",";
-  json += "\"liveRaw\":" + String(pulseCount) + ","; // ส่งค่าดิบให้เว็บโชว์เลขวิ่ง
-  json += "\"finalHeight\":" + String(lastFinishedHeight) + ","; // ตำแหน่งที่สแกนเสร็จ
-  json += "\"finalNetCount\":" + String(lastFinishedNetCount); // ค่า NetCount ของจริง
+  json += "\"liveRaw\":" + String(pulseCount) + ",";
+  json += "\"finalHeight\":" + String(lastFinishedHeight) + ",";
+  json += "\"finalNetCount\":" + String(lastFinishedNetCount);
   json += "}";
+
   server.send(200, "application/json", json);
 }
 
 void handleStop() {
   sendCORS();
-  server.send(200, "text/plain", "RESTARTING...");
-  delay(500);
-  ESP.restart();
+  server.send(200, "text/plain", "GRAPH_ONLY_MODE");
 }
 
 void setMotorLock(bool lock) {
@@ -137,6 +145,7 @@ void printField(int val, bool hidden) {
 }
 
 void calibrateBackground() {
+  isMeasuringBG = true;   // 🟢 เริ่มวัด BG
   lcd.clear();
   lcd.setCursor(0,0); lcd.print("BG CALIBRATION");
   lcd.setCursor(0,1); lcd.print("PLS CLEAR SOURCE"); 
@@ -176,20 +185,31 @@ void calibrateBackground() {
   while(digitalRead(btnSelect) == LOW); 
   delay(500);
   lcd.clear();
+
+  isMeasuringBG = false;  // 🔴 วัด BG เสร็จแล้ว
 }
+
 
 void manualZeroAdjust() {
   setMotorLock(true); delay(100); 
   String names[] = {"SOURCE", "DETECTOR"};
   int puls[] = {m1_pul, m2_pul}, dirs[] = {m1_dir, m2_dir};
   
-  for(int i=0; i<2; i++) {
+  int i = 0; // เปลี่ยนจาก for loop มาใช้ while เพื่อให้ย้อนกลับได้
+  while(i < 2) {
     lcd.clear(); lcd.setCursor(0,0); lcd.print("SET ZERO: "); lcd.print(names[i]);
-    lcd.setCursor(0,1); lcd.print("Up/Dn:Move |Sel:OK");
-    while(digitalRead(btnSelect) == LOW || digitalRead(btnUp) == LOW || digitalRead(btnDown) == LOW) server.handleClient();
+    lcd.setCursor(0,1); lcd.print("Up/Dn:Move");
+    lcd.setCursor(0,2); lcd.print("Select:OK");
+    lcd.setCursor(0,3); lcd.print("Back:Prev"); // 🆕 เพิ่มคำแนะนำบนจอ
+
+    // รอจนกว่าจะปล่อยปุ่มทั้งหมด
+    while(digitalRead(btnSelect) == LOW || digitalRead(btnUp) == LOW || digitalRead(btnDown) == LOW || digitalRead(btnBack) == LOW) server.handleClient();
     delay(100);
 
-    while(true) {
+    bool moveNext = false;
+    bool movePrev = false;
+
+    while(!moveNext && !movePrev) {
       server.handleClient();
       if(digitalRead(btnUp) == LOW) {
         digitalWrite(dirs[i], HIGH);
@@ -201,15 +221,75 @@ void manualZeroAdjust() {
         digitalWrite(puls[i], HIGH); delayMicroseconds(20);
         digitalWrite(puls[i], LOW);  delayMicroseconds(800);
       }
-      if(digitalRead(btnSelect) == LOW) {
+      // ยืนยันตำแหน่ง (ไปข้างหน้า)
+      else if(digitalRead(btnSelect) == LOW) {
          delay(50);
-         if(digitalRead(btnSelect) == LOW) { while(digitalRead(btnSelect) == LOW); break; }
+         if(digitalRead(btnSelect) == LOW) { 
+           while(digitalRead(btnSelect) == LOW) server.handleClient(); 
+           moveNext = true; 
+         }
       }
+      // 🆕 ลอจิกปุ่มย้อนกลับ (Back)
+      else if(digitalRead(btnBack) == LOW) {
+         delay(50);
+         if(digitalRead(btnBack) == LOW) { 
+           while(digitalRead(btnBack) == LOW) server.handleClient(); 
+           movePrev = true; 
+         }
+      }
+      
       if (digitalRead(btnReset) == LOW) ESP.restart();
     }
-    lcd.clear(); lcd.print("Saved Zero!"); delay(500);
+    
+    if (moveNext) {
+      lcd.clear(); lcd.print("Saved Zero!"); delay(500);
+      i++; // ไปมอเตอร์ตัวถัดไป (0 -> 1 -> จบ)
+    } 
+    else if (movePrev) {
+      if (i > 0) {
+        i--; // ย้อนกลับไปมอเตอร์ตัวก่อนหน้า (1 -> 0)
+        lcd.clear(); lcd.print("Going Back..."); delay(500);
+      } else {
+        // ถ้าอยู่ที่ SOURCE (i=0) อยู่แล้ว จะย้อนกลับไม่ได้
+        lcd.clear(); lcd.print("Already at Start!"); delay(500);
+      }
+    }
   }
   setMotorLock(false);
+}
+
+void showSelectMode() {
+  digitalWrite(m1_pul, LOW); digitalWrite(m2_pul, LOW);
+  setMotorLock(false);
+
+  lcd.clear();
+  lcd.setCursor(0, 0); lcd.print("--- SELECT MODE ---");
+  lcd.setCursor(0, 1); lcd.print("UP  : Motor Mode");
+  lcd.setCursor(0, 2); lcd.print("DOWN: Set BG Mode");
+
+  while (true) {
+    server.handleClient(); 
+    
+    // กดปุ่ม UP -> ไปโหมดมอเตอร์ (ข้าม BG)
+    if (digitalRead(btnUp) == LOW) {
+      delay(50);
+      while (digitalRead(btnUp) == LOW) server.handleClient(); 
+      lcd.clear();
+      lcd.setCursor(0, 1); lcd.print(" Entering Motor...");
+      delay(1000);
+      break; 
+    }
+    
+    // กดปุ่ม DOWN -> ไปโหมดวัด BG ก่อน
+    if (digitalRead(btnDown) == LOW) {
+      delay(50);
+      while (digitalRead(btnDown) == LOW) server.handleClient(); 
+      calibrateBackground(); 
+      break; 
+    }
+
+    if (digitalRead(btnReset) == LOW) ESP.restart();
+  }
 }
 
 void softReset() {
@@ -272,7 +352,7 @@ void runAutoScanProcess() {
     
     if (dataCount < maxDataPoints) {
       savedPositions[dataCount] = currentCm;
-      savedPulses[dataCount] = netCount;
+      savedPulses[dataCount] = (netCount / Allvalue[3]); // หารด้วยเวลาเป็นวินาที
       dataCount++;
     }
     
@@ -306,17 +386,55 @@ void runAutoScanProcess() {
 void setup() {
   Serial.begin(115200);
   
-  // WiFi Setup
-  WiFi.begin(ssid, password);
+  // 1. 🥇 เปิดจอ LCD เป็นอันดับแรกสุด! จะได้แสดงผลสถานะต่างๆ ได้ทันที
+  Wire.begin(18, 19);
+  lcd.init(); 
+  lcd.backlight();
+
+  // 2. เคลียร์ความจำ WiFi เก่าที่บอร์ดอาจจะแอบจำไว้ทิ้งไปก่อน
+  WiFi.mode(WIFI_STA);
+  WiFi.disconnect();
+  delay(100);
+
+  // 3. เริ่มเชื่อมต่อ WiFi
+  lcd.clear();
+  lcd.setCursor(0, 0); lcd.print("Connecting WiFi...");
   Serial.print("Connecting to WiFi");
-  while (WiFi.status() != WL_CONNECTED) { delay(500); Serial.print("."); }
-  Serial.println("\nWiFi connected! IP: " + WiFi.localIP().toString());
+  
+  WiFi.begin(ssid, password);
+  unsigned long startAttemptTime = millis();
+  
+  // รอ 10 วินาที
+  while (WiFi.status() != WL_CONNECTED && millis() - startAttemptTime < 10000) { 
+    delay(500); 
+    Serial.print("."); 
+  }
+
+  lcd.clear();
+  // เช็คผลลัพธ์การเชื่อมต่อ
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.println("\nWiFi connected! IP: " + WiFi.localIP().toString());
+    lcd.setCursor(0, 0); lcd.print("WIFI CONNECTED");
+    lcd.setCursor(0, 1); lcd.print(WiFi.localIP()); // โชว์ IP บนจอให้ดูด้วย
+    
+    //server.begin(); // เปิด Server เฉพาะตอนมี WiFi
+  } 
+  else {
+    Serial.println("\nWiFi connection failed. Running in OFFLINE mode.");
+    lcd.setCursor(0, 0); lcd.print("OFFLINE MODE");
+  }
+  
+  // หน่วงเวลา 2 วินาทีให้ผู้ใช้อ่านหน้าจอทัน ก่อนจะไปหน้า SELECT MODE
+  delay(2000); 
 
   // API Routes
   server.on("/start", handleStart);
   server.on("/stop", handleStop);
   server.on("/data", handleData);
-  server.begin();
+  if (WiFi.status() == WL_CONNECTED) {
+      server.begin(); 
+  }
+  // ลบ server.begin() ตรงนี้ออกเพราะเราเรียกใน if ข้างบนแล้ว
 
   pinMode(m1_pul, OUTPUT); pinMode(m1_dir, OUTPUT); pinMode(m1_ena, OUTPUT);
   pinMode(m2_pul, OUTPUT); pinMode(m2_dir, OUTPUT); pinMode(m2_ena, OUTPUT);
@@ -324,27 +442,26 @@ void setup() {
   digitalWrite(m1_ena, HIGH); digitalWrite(m2_ena, HIGH);
   delay(1000);
 
-  Wire.begin(18, 19);
-  lcd.init(); lcd.backlight();
-
   pinMode(btnUp, INPUT_PULLUP);
   pinMode(btnDown, INPUT_PULLUP);
   pinMode(btnSelect, INPUT_PULLUP);
   pinMode(btnReset, INPUT_PULLUP);
+  pinMode(btnBack, INPUT_PULLUP);
   
   pinMode(radiationPin, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(radiationPin), countPulse, FALLING);
   
   digitalWrite(m1_pul, LOW); digitalWrite(m2_pul, LOW);
   setMotorLock(false);
-
-  calibrateBackground();
 }
 
 void loop() {
   server.handleClient(); // รับคำสั่งเว็บตลอดเวลา
 
-  if (!adjust) { manualZeroAdjust(); adjust = true; }
+  if (!adjust) { 
+    showSelectMode();
+    manualZeroAdjust(); 
+    adjust = true; }
 
   while(!summaryDone) {
     server.handleClient(); 
@@ -384,6 +501,8 @@ void loop() {
         unsigned long pressTime = millis();
         bool longPress = false;
         while(digitalRead(btnSelect) == LOW) {
+           server.handleClient(); // ให้อาหาร Watchdog
+           delay(10);             // ให้บอร์ดได้พักหายใจ
            if (millis() - pressTime > 3000) { 
              longPress = true;
              calibrateBackground(); softReset(); return; 
@@ -406,6 +525,27 @@ void loop() {
           }
         }
       }
+    }
+
+    // 🆕 เพิ่มลอจิกการทำงานของปุ่ม Back (ย้อนกลับ)
+    if (isButtonPressed(btnBack)) {
+      if (!timerSet) { // กำลังตั้ง Time
+        timerCursor--;
+        if (timerCursor < 0) { timerSet = true; StartSet = false; StartCursor = 1; timerCursor = 0; }
+      }
+      else if (!StartSet) { // กำลังตั้ง Start
+        StartCursor--;
+        if (StartCursor < 0) { StartSet = true; StepSet = false; StepCursor = 1; StartCursor = 0; }
+      }
+      else if (!StepSet) { // กำลังตั้ง Step
+        StepCursor--;
+        if (StepCursor < 0) { StepSet = true; HighSet = false; HighCursor = 1; StepCursor = 0; }
+      }
+      else if (!HighSet) { // กำลังตั้ง High
+        HighCursor--;
+        if (HighCursor < 0) { HighCursor = 0; } // ติดขอบซ้ายสุดแล้ว
+      }
+      lcd.clear(); // ล้างจอเพื่ออัปเดตตำแหน่ง Cursor
     }
     
     // แสดงผลหน้าจอ (ตัดสั้นเพื่อความกระชับ)

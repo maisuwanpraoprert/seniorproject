@@ -51,10 +51,10 @@
                 <div class="content-item">
                     <h4>What's the problems?</h4>
                     <div class="tray-img">
-                        <img src="IMG-1.jpg" width="20%">
-                        <img src="IMG-2.jpg" width="20%">
-                        <img src="IMG-3.jpg" width="20%">
-                        <img src="IMG-4.jpg" width="20%">
+                        <img src="IMG-1.jpg" width="20%" onclick="toggleExpand(this)">
+                        <img src="IMG-2.jpg" width="20%" onclick="toggleExpand(this)">
+                        <img src="IMG-3.jpg" width="20%" onclick="toggleExpand(this)">
+                        <img src="IMG-4.jpg" width="20%" onclick="toggleExpand(this)">
                     </div>
                     <p>
                         Industrial distillation columns often face <span style="color: red; font-weight: bold;">unpredictable failures</span> like 
@@ -67,8 +67,8 @@
                 <div class="content-item">
                     <h4>Our Solutions</h4>
                     <div class="sol-img">
-                        <img src="IMG-5.png" width="20%">
-                        <img src="IMG-6.png" width="20%">
+                        <img src="IMG-5.png" width="20%" onclick="toggleExpand(this)">
+                        <img src="IMG-6.png" width="20%" onclick="toggleExpand(this)">
                     </div>
                     <p>
                         This project develops a <span style="color: red; font-weight: bold;">lab-scale distillation scanning system</span>
@@ -101,5 +101,21 @@
         </div>
     </div>
     <div class="footer-buttom">© 2026 Mai and Vikrom | Project in Nuclear Enginnering 2111403 | Department of Nuclear Technology, Faculty of Engineering</div>
+    <script>
+        function toggleExpand(element) {
+            // เช็คว่ารูปที่กดขยายอยู่แล้วหรือไม่
+            const isExpanded = element.classList.contains('active-expand');
+            
+            // ลบ class ขยายออกจากทุกรูปก่อน
+            document.querySelectorAll('.tray-img img, .sol-img img').forEach(img => {
+                img.classList.remove('active-expand');
+            });
+
+            // ถ้าเดิมไม่ได้ขยาย ให้ขยายรูปที่เพิ่งกด
+            if (!isExpanded) {
+                element.classList.add('active-expand');
+            }
+        }
+    </script>
 </body>
 </html>
