@@ -142,7 +142,7 @@ bool isButtonPressed(int pin) {
 
 void printField(int val, bool hidden) {
   if (hidden) lcd.print(" "); else lcd.print(val);
-}
+}isButtonPressed
 
 void calibrateBackground() {
   isMeasuringBG = true;   // 🟢 เริ่มวัด BG

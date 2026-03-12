@@ -26,6 +26,7 @@ let currentSessionId = null;
 // ตัวแปรเสริมสำหรับกรองข้อมูล
 let currentScanHeight = -1;
 let highestCountForHeight = 0;
+let ignoreFirstData = true;
 
 // ⚠️ สำคัญ: เวลาเทสจริง ต้องรันหน้าเว็บแบบ http://localhost หรือรันไฟล์ตรงๆ 
 // ห้ามโฮสต์บน HTTPS ชั่วคราว เพราะเว็บบน HTTPS จะดึงข้อมูลจาก ESP32 (HTTP) ไม่ได้
@@ -101,10 +102,9 @@ async function fetchESP32Data() {
                 statusElement.innerText = "Waiting for LCD Setup...";
                 countsElement.innerText = "0";
             } else {
-                // มีข้อมูลแล้ว = สแกนเสร็จ มอเตอร์กลับบ้านแล้ว
+                // มีข้อมูลแล้ว = สแกนเสร็จ 
                 stopScan();
                 statusElement.innerText = "Completed";
-                countsElement.innerText = "--";
             }
             return; // จบรอบการทำงาน
         }
@@ -127,29 +127,40 @@ async function fetchESP32Data() {
         }
 
         // 3. ลอจิกบันทึกข้อมูลและพล็อตกราฟ (เมื่อวัดที่ความสูงนั้นๆ เสร็จ)
-        if (data.finalHeight !== -1 && data.finalHeight !== currentScanHeight) {
-              currentScanHeight = data.finalHeight;
-              let finalNet = data.finalNetCount;
+        if (data.finalHeight !== -1) {
 
-              // ✅ แสดง net count ของความสูงนี้
-              countsElement.innerText = finalNet;
-              heightElement.innerText = currentScanHeight;
+    // ⭐ กันค่าเก่าของรอบก่อน
+    if (ignoreFirstData) {
+        ignoreFirstData = false;
+        currentScanHeight = data.finalHeight;
+        return;
+    }
 
-              heightData.push(currentScanHeight);
-              countData.push(finalNet);
+    if (data.finalHeight !== currentScanHeight) {
 
-              Plotly.extendTraces('countGraph', {
-                  x: [[finalNet]],
-                  y: [[currentScanHeight]]
-              }, [0]);
+            currentScanHeight = data.finalHeight;
+            let finalNet = data.finalNetCount;
 
-              db.collection("scan_results").add({
-                  sessionId: currentSessionId,
-                  height: currentScanHeight,
-                  counts: finalNet,
-                  timestamp: firebase.firestore.FieldValue.serverTimestamp()
-              });
-          }
+            countsElement.innerText = finalNet;
+            heightElement.innerText = currentScanHeight;
+
+            heightData.push(currentScanHeight);
+            countData.push(finalNet);
+
+            Plotly.extendTraces('countGraph', {
+                x: [[finalNet]],
+                y: [[currentScanHeight]]
+            }, [0]);
+
+            db.collection("scan_results").add({
+                sessionId: currentSessionId,
+                height: currentScanHeight,
+                counts: finalNet,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+
+        }
+    }
 
     } catch (err) {
         console.error("Connection Error:", err);
@@ -166,13 +177,13 @@ function startScan() {
   currentSessionId = "session_" + new Date().getTime();
   heightData = [];
   countData = [];
-  currentScanHeight = -1;       // รีเซ็ตตัวกรอง
-  highestCountForHeight = 0;    // รีเซ็ตตัวกรอง
-  
+  currentScanHeight = -1;
+  highestCountForHeight = 0;
+
+  ignoreFirstData = true;   // ⭐ เพิ่มบรรทัดนี้
+
   initGraphs();
 
-  
-  // สั่งดึงข้อมูลทุกๆ 1 วินาที
   scanInterval = setInterval(fetchESP32Data, 1000);
   document.getElementById('status').innerText = "Initializing...";
 }
