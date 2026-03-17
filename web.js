@@ -1,6 +1,7 @@
 /***************************************
  * FIREBASE CONFIGURATION
  ***************************************/
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyCPQ2bWH7HazW6s5-Y18dm2-qmcVlnWR40",
   authDomain: "columnscan.firebaseapp.com",
@@ -71,121 +72,185 @@ function animateValue(id, start, end, duration) {
     window.requestAnimationFrame(step);
 }
 
+
 /***************************************
- * 2. แก้ไขส่วน FETCH DATA
+ * FETCH DATA FROM ESP32
  ***************************************/
 async function fetchESP32Data() {
-    try {
-        const res = await fetch(`${ESP32_IP}/data`);
-        const data = await res.json();
 
-        // ประกาศตัวแปรอ้างอิง DOM
-        const countsElement = document.getElementById('counts');
-        const statusElement = document.getElementById('status');
-        const bgElement = document.getElementById('bg-rate');
-        const heightElement = document.getElementById('height');
+  try {
 
-        // 1. อัปเดตค่า Background Rate (เลขวิ่งเสมอเพื่อให้รู้ว่าเชื่อมต่ออยู่)
-        if (data.bgRate !== undefined && bgElement) {
-            const currentValue = parseFloat(bgElement.innerText) || 0;
-            if (Math.abs(data.bgRate - currentValue) > 0.01) {
-                animateValue('bg-rate', currentValue, data.bgRate, 1000);
-            }
-        }
+    const res = await fetch(`${ESP32_IP}/data`);
+    const data = await res.json();
 
-        // 2. จัดการสถานะตามที่ได้รับจากบอร์ด
-        
-        // สถานะ IDLE: แยกเป็น "รอกดปุ่มที่จอ" กับ "สแกนเสร็จแล้ว"
-        if (data.status === "idle") {
-            if (heightData.length === 0) {
-                // ยังไม่มีข้อมูลในกราฟ = รอกดปุ่มที่บอร์ด
-                statusElement.innerText = "Waiting for LCD Setup...";
-                countsElement.innerText = "0";
-            } else {
-                // มีข้อมูลแล้ว = สแกนเสร็จ 
-                stopScan();
-                statusElement.innerText = "Completed";
-            }
-            return; // จบรอบการทำงาน
-        }
+    // ⭐ เพิ่ม debug ตรงนี้
+    console.log("ESP32 Data:", data);
+    console.log("finalHeight:", data.finalHeight);
+    console.log("finalNetCount:", data.finalNetCount);
 
-        // สถานะ MEASURING BG: กำลังนับถอยหลัง 20 วินาทีที่หน้าจอ
-        if (data.status === "measuring_bg") {
-            statusElement.innerText = "Measuring Background...";
-            countsElement.innerText = "0"; // ล็อกค่า Net Count เป็น 0
-            heightElement.innerText = "0";
-            return; 
-        }
+    const countsElement = document.getElementById('counts');
+    const statusElement = document.getElementById('status');
+    const bgElement = document.getElementById('bg-rate');
+    const heightElement = document.getElementById('height');
 
-        // สถานะ SCANNING: เริ่มสแกนจริง
-        if (data.status === "scanning") {
-            statusElement.innerText = "Scanning...";
 
-            if (data.currentHeight !== undefined) {
-                heightElement.innerText = data.currentHeight;
-            }
-        }
+    /***********************
+     UPDATE BG RATE
+    ************************/
+    if (data.bgRate !== undefined && bgElement) {
 
-        // 3. ลอจิกบันทึกข้อมูลและพล็อตกราฟ (เมื่อวัดที่ความสูงนั้นๆ เสร็จ)
-        if (data.finalHeight !== -1) {
+      const currentValue = parseFloat(bgElement.innerText) || 0;
 
-    // ⭐ กันค่าเก่าของรอบก่อน
-    if (ignoreFirstData) {
-        ignoreFirstData = false;
-        currentScanHeight = data.finalHeight;
+      if (Math.abs(data.bgRate - currentValue) > 0.01) {
+        animateValue('bg-rate', currentValue, data.bgRate, 1000);
+      }
+
+    }
+
+
+    /***********************
+     HANDLE STATUS
+    ************************/
+
+    if (data.status === "idle") {
+
+      if (heightData.length === 0) {
+
+        statusElement.innerText = "Waiting for LCD Setup...";
+        countsElement.innerText = "0";
+
+      } else {
+
+        statusElement.innerText = "Completed";
+        stopScan();
+
+      }
+
+      return;
+    }
+
+
+    if (data.status === "measuring_bg") {
+
+      statusElement.innerText = "Measuring Background...";
+      countsElement.innerText = "0";
+      heightElement.innerText = "0";
+
+      return;
+    }
+
+
+    if (data.status === "scanning") {
+
+      statusElement.innerText = "Scanning...";
+
+      if (data.currentHeight !== undefined) {
+        heightElement.innerText = data.currentHeight;
+      }
+
+    }
+
+
+    /***********************
+     SAVE DATA WHEN HEIGHT FINISHED
+    ************************/
+
+    if (data.finalHeight !== undefined && data.finalHeight !== -1) {
+
+      let finalHeight = data.finalHeight;
+      let finalNet = data.finalNetCount;
+
+      // กันข้อมูลซ้ำ
+      if (finalHeight === currentScanHeight) {
         return;
+      }
+
+      currentScanHeight = finalHeight;
+
+      console.log("New Data:", finalHeight, finalNet);
+
+      countsElement.innerText = finalNet;
+      heightElement.innerText = finalHeight;
+
+
+      /***********************
+       SAVE GRAPH DATA
+      ************************/
+
+      heightData.push(finalHeight);
+      countData.push(finalNet);
+
+      Plotly.extendTraces('countGraph', {
+
+        x: [[finalNet]],
+        y: [[finalHeight]]
+
+      }, [0]);
+
+
+      /***********************
+       SAVE TO FIREBASE
+      ************************/
+
+      db.collection("scan_results").add({
+
+        sessionId: currentSessionId,
+        height: finalHeight,
+        counts: finalNet,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+
+      })
+      .then(() => {
+
+        console.log("Saved to Firebase");
+
+      })
+      .catch((error) => {
+
+        console.error("Firebase Error:", error);
+
+      });
+
     }
 
-    if (data.finalHeight !== currentScanHeight) {
+  }
 
-            currentScanHeight = data.finalHeight;
-            let finalNet = data.finalNetCount;
+  catch (err) {
 
-            countsElement.innerText = finalNet;
-            heightElement.innerText = currentScanHeight;
+    console.error("ESP32 Connection Error:", err);
 
-            heightData.push(currentScanHeight);
-            countData.push(finalNet);
+    const statusElement = document.getElementById('status');
 
-            Plotly.extendTraces('countGraph', {
-                x: [[finalNet]],
-                y: [[currentScanHeight]]
-            }, [0]);
-
-            db.collection("scan_results").add({
-                sessionId: currentSessionId,
-                height: currentScanHeight,
-                counts: finalNet,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            });
-
-        }
+    if (statusElement) {
+      statusElement.innerText = "Reconnecting...";
     }
 
-    } catch (err) {
-        console.error("Connection Error:", err);
-        document.getElementById('status').innerText = "Reconnecting...";
-    }
+  }
+
 }
 
 /***************************************
  * CONTROL BUTTONS
  ***************************************/
 function startScan() {
+
   if (scanInterval) return;
 
   currentSessionId = "session_" + new Date().getTime();
+
+  // ⭐ รีเซ็ตข้อมูลเก่า
   heightData = [];
   countData = [];
-  currentScanHeight = -1;
+  currentScanHeight = -999;   // สำคัญมาก
   highestCountForHeight = 0;
-
-  ignoreFirstData = true;   // ⭐ เพิ่มบรรทัดนี้
+  ignoreFirstData = true;
 
   initGraphs();
 
   scanInterval = setInterval(fetchESP32Data, 1000);
+
   document.getElementById('status').innerText = "Initializing...";
+
 }
 
 function stopScan() {
@@ -198,12 +263,18 @@ function stopScan() {
 
 function resetScan() {
   stopScan();
+
   heightData = [];
   countData = [];
+
+  currentScanHeight = -999;  // ⭐ เพิ่ม
+
   initGraphs();
+
   document.getElementById('height').innerText = "--";
   document.getElementById('counts').innerText = "--";
   document.getElementById('status').innerText = "Idle";
+
 }
 
 /***************************************
