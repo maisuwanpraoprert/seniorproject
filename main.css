@@ -1264,24 +1264,27 @@ html {
     }
 
     /* Simulation Layout */
-        @media (max-width: 768px) {
         /* 1. จัด Layout ให้เรียงเป็นแนวตั้ง */
-        .sim-layout {
-            flex-direction: column;
-            gap: 20px;
-        }
+    .sim-layout {
+        flex-direction: column;
+        gap: 20px;
+    }
 
-        /* 2. ปรับกราฟให้พอดีจอ ไม่ล้น */
-        #countGraph {
-            height: 350px !important; /* ลดความสูงเพื่อให้เห็นปุ่มด้านล่างโดยไม่ต้องเลื่อนเยอะ */
-        }
-
-        /* 3. ปรับกล่องข้อมูลให้ดูง่ายขึ้น */
-        .info-sim.vertical {
-            grid-template-columns: 1fr 1fr; /* แบ่ง 2 ฝั่งเหมือนเดิม */
-            max-width: 100%;
-            gap: 10px;
-        }
+    .graph-section {
+        order: 1; /* กราฟอยู่บนสุด */
+        margin-bottom: 20px;
+    }
+    
+    #countGraph {
+        height: 350px !important; /* ลดความสูงเพื่อไม่ให้จอล้น */
+    }
+    .info-sim.vertical {
+        order: 2; /* กล่องสถานะตามลงมา */
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        max-width: 100%;
+        margin: 0;
+    }
 
         .info-box {
             padding: 15px 10px;
@@ -1291,19 +1294,27 @@ html {
         .info-box p { font-size: 18px; }
 
         /* 4. ปรับกลุ่มปุ่มควบคุม (สำคัญมาก) */
-        .control-btn {
-            display: grid;
-            grid-template-columns: 1fr 1fr; /* แบ่งปุ่มเป็น 2 คอลัมน์ (ข้างละ 2 ปุ่ม) */
-            gap: 10px;
-            width: 100%;
-        }
+        /* 2. ปรับกลุ่มปุ่มให้เรียงเดี่ยวบนลงล่าง */
+    .control-btn {
+        display: flex;
+        flex-direction: column; /* เปลี่ยนจากแนวนอนเป็นแนวตั้ง */
+        width: 100%;
+        gap: 12px;           /* ระยะห่างระหว่างปุ่มที่พอดีมือ */
+        grid-column: span 1;  /* สำคัญ: ล้างค่ากินพื้นที่ 2 คอลัมน์ออก */
+        order: 3;            /* บังคับให้อยู่ด้านล่างสุด (ตามรูป 3) */
+        justify-content: center;
+        margin-top: 15px;
+    }
 
-        .btn {
-            width: 100%; /* ให้ปุ่มขยายเต็มช่อง Grid */
-            padding: 12px 5px;
-            font-size: 14px;
-            justify-content: center;
-        }
+      /* 3. ปรับขนาดปุ่มให้ขยายเต็มความกว้าง */
+    .btn {
+        width: 100%; /* ปุ่มขยายเต็มความกว้างของคอนเทนเนอร์ */
+        padding: 15px;
+        font-size: 16px;
+        font-weight: 600;
+        text-align: center;
+        border-radius: 12px;
+        justify-content: center; /* จัดตัวหนังสือให้อยู่กลาง */
     }
 }
 
