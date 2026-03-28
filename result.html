@@ -60,80 +60,49 @@
                 </div>
                 <div class="accuracy-content">
                     <div class="accuracy-card">
-                        <img src="height_calibration_curve.png" alt="Calibration Graph">
+                        <img src="height_calibration.png" alt="Calibration Graph">
                         <div class="accuracy-info">
-                            <p>Verification of source-detector synchronized movement. The deviation was found to be within ±0.5 mm throughout the 75 cm scanning height.</p>
+                            <p>
+                                The system underwent calibration tests to ensure the vertical movement of both the source and detector remained perfectly aligned. 
+                                The measured positions show a highly precise linear relationship, as expressed by the equation <i>y = 0.9997x + 0.0098</i>. 
+                                With an <b>R<sup>2</sup> = 1</b> and a deviation of less than <b>&plusmn;0.5 mm</b>, 
+                                this accuracy guarantees reliable and consistent density profiling throughout the scanning process.
+                            </p>
                         </div>
                     </div>
                 </div>
             </section>
 
             <section class="tray-analysis-section">
-    <div class="header-item">
-        <span class="number-box">2</span>
-        <h2>Density Profile Analysis</h2>
-    </div>
-
-    <div class="analysis-comparison-grid">
-        
-        <div class="comparison-column normal-side">
-            <div class="tray-case">
-                <h3>Normal Case</h3>
-                <div class="side-content">
-                    <img src="perfect_profile.png" class="large-graph" alt="Normal Profile">
-                    <div class="small-visuals">
-                        <img src="tray.png" class="mini-photo" alt="Normal Tray">
-                    </div>
-                    <div class="tray-description">
-                        <p>The density profile shows sharp, consistent peaks at each tray level, indicating stable liquid holdup and structural integrity.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="comparison-column damaged-side">
-            <div class="tray-case">
-                <h3>Damaged Cases</h3>
                 
-                <div class="case-selector">
-                    <button class="case-btn active" onclick="openCase(event, 'leaking')">Leaking Tray</button>
-                    <button class="case-btn" onclick="openCase(event, 'tilted')">Tilted Tray</button>
-                    <button class="case-btn" onclick="openCase(event, 'dislodged')">Dislodged Tray</button>
-                </div>
-
-                <div id="leaking" class="case-content active">
-                    <img src="leaking-graph.png" class="large-graph" alt="Leaking Profile">
-                    <div class="small-visuals">
-                        <img src="leaking-tray.jpg" class="mini-photo" alt="Leaking Tray">
-                    </div>
-                    <div class="tray-description">
-                        <p>Peaks appear lower and broader. Indicates liquid is not being held properly, reducing phase contact time.</p>
-                    </div>
-                </div>
-
-                <div id="tilted" class="case-content">
-                    <img src="tilted-graph.png" class="large-graph" alt="Tilted Profile">
-                    <div class="small-visuals">
-                        <img src="tilted-tray.jpg" class="mini-photo" alt="Tilted Tray">
-                    </div>
-                    <div class="tray-description">
-                        <p>Results in an asymmetric profile. Shows higher liquid accumulation on one side and gas breakthrough on the other.</p>
-                    </div>
-                </div>
-
-                <div id="dislodged" class="case-content">
-                    <img src="dislodged-graph.png" class="large-graph" alt="Dislodged Profile">
-                    <div class="small-visuals">
-                        <img src="dislodged-tray.jpg" class="mini-photo" alt="Dislodged Tray">
-                    </div>
-                    <div class="tray-description">
-                        <p>Missing peak at tray elevation. Identifies a fallen tray, causing massive bypass and efficiency loss.</p>
-                    </div>
-                </div>
-            </div>
+    <section class="tray-analysis-section">
+        <div class="header-item">
+            <span class="number-box">2</span>
+            <h2>Density Profile Comparison</h2>
         </div>
 
-    </div>
+        <div class="comparison-grid dual-column">
+            <div class="compare-col" id="col-1">
+                <select class="tray-select" onchange="updateComparison(1, this.value)">
+                    <option value="normal">Normal Case</option>
+                    <option value="leaking">Leaking Tray</option>
+                    <option value="tilted">Tilted Tray</option>
+                    <option value="dislodged">Dislodged Tray</option>
+                </select>
+                <div class="display-area"></div>
+            </div>
+
+            <div class="compare-col" id="col-2">
+                <select class="tray-select" onchange="updateComparison(2, this.value)">
+                    <option value="normal">Normal Case</option>
+                    <option value="leaking" selected>Leaking Tray</option> 
+                    <option value="tilted">Tilted Tray</option>
+                    <option value="dislodged">Dislodged Tray</option>
+                </select>
+                <div class="display-area"></div>
+            </div>
+        </div>
+    </section>
 </section>
         </div>
     </main>
@@ -157,26 +126,56 @@
                 </div>
             </div>
         </div>
+
     <div class="footer-buttom">© 2026 Mai and Vikrom | Project in Nuclear Enginnering 2111403 | Department of Nuclear Technology, Faculty of Engineering</div>
+    
     <script>
-    function openCase(evt, caseName) {
-        // ซ่อนเนื้อหาเคสทั้งหมด
-        var i, caseContent, caseBtn;
-        caseContent = document.getElementsByClassName("case-content");
-        for (i = 0; i < caseContent.length; i++) {
-            caseContent[i].classList.remove("active");
-        }
-
-        // เอาคลาส active ออกจากปุ่มทั้งหมด
-        caseBtn = document.getElementsByClassName("case-btn");
-        for (i = 0; i < caseBtn.length; i++) {
-            caseBtn[i].classList.remove("active");
-        }
-
-        // แสดงเนื้อหาเคสที่เลือก และเพิ่มคลาส active ให้ปุ่มที่กด
-        document.getElementById(caseName).classList.add("active");
-        evt.currentTarget.classList.add("active");
+    const trayData = {
+    "normal": {
+        graph: "perfect_profile.png",
+        photo: "tray.png",
+        desc: "The density profile shows sharp, consistent peaks at each tray level, indicating stable liquid holdup."
+    },
+    "leaking": {
+        graph: "leaking-graph.png",
+        photo: "leaking-tray.jpg",
+        desc: "Peaks appear lower and broader. Indicates liquid is not being held properly, reducing phase contact time."
+    },
+    "tilted": {
+        graph: "tilted-graph.png",
+        photo: "tilted-tray.jpg",
+        desc: "Results in an asymmetric profile. Shows higher liquid accumulation on one side and gas breakthrough."
+    },
+    "dislodged": {
+        graph: "dislodged-graph.png",
+        photo: "dislodged-tray.jpg",
+        desc: "Missing peak at tray elevation. Identifies a fallen tray, causing massive bypass and efficiency loss."
     }
+};
+
+    function updateComparison(colNum, trayKey) {
+        const data = trayData[trayKey];
+        const displayArea = document.querySelector(`#col-${colNum} .display-area`);
+
+        if (!data || !displayArea) return;
+
+        displayArea.innerHTML = `
+            <div class="image-row">
+                <img src="${data.photo}" class="comp-photo" alt="Tray">
+                <img src="${data.graph}" class="comp-graph" alt="Graph">
+            </div>
+            <div class="comp-desc">
+                <strong>Analysis:</strong>
+                <p>${data.desc}</p>
+            </div>
+        `;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        updateComparison(1, "normal");
+        updateComparison(2, "leaking");
+        // ลบการเรียก updateComparison สำหรับ column 3 ออกเพราะเราใช้แค่ 2 คอลัมน์
+    });
     </script>
 </body>
 </html>

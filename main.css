@@ -862,12 +862,13 @@ html {
 /* --- Section 2: Accuracy --- */
 .accuracy-card {
     display: flex;
-    gap: 30px;
+    gap: 35px;
     background: #efdcc6;
     padding: 25px;
     border-radius: 15px;
-    align-items: center;
+    align-items:end;
     margin-bottom: 50px;
+    text-align: justify;
 }
 
 .accuracy-card img {
@@ -881,148 +882,126 @@ html {
 }
 
 /* --- Section 3: Density Profile Analysis --- */
-.analysis-comparison-grid {
-    display: flex;
-    gap: 20px;
-    align-items: stretch;
+/* จัดการ Grid 2 คอลัมน์ให้อยู่กลางจอ */
+.comparison-grid.dual-column {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    max-width: 1200px;
+    margin: 40px auto;
 }
 
-.comparison-column {
-    flex: 1;
-    display: flex;
-}
-
-.tray-case {
+.compare-col {
     background: #ffffff;
-    padding: 30px;
-    border-radius: 15px;
-    border-top: 4px solid #02066f;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-.tray-case h3 {
-    margin-bottom: 20px;
-    color: #000;
-}
-
-/* --- Image Layout Logic --- */
-/* ลบโค้ด .large-graph และ .mini-photo เดิมออก แล้วใช้แบบนี้แทน */
-
-.image-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px; /* เพิ่มระยะห่างนิดหน่อย */
-    width: 100%;
-    margin: 0 auto 15px auto;
-}
-
-.large-graph {
-    width: 100%; /* กราฟเอาไป 70% ของความกว้าง wrapper */
-    height: 520px;
-    object-fit: contain;
-    background: #fdfdfd;
-    border: 1px solid #eee;
-    border-radius: 8px;
-}
-
-.mini-photo {
-    width: 30%; 
-    height: 420px;
-    object-fit: cover;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    align-items: center;
-    margin-left: 12rem;
-    margin-bottom: 1.5rem;
-}
-
-/* --- Content Styling --- */
-.tray-description h4 {
-    color: #cd3737;
-    margin-bottom: 8px;
-    font-size: 1.1rem;
-}
-
-.tray-description p {
-    font-size: 0.95rem;
-    line-height: 1.6;
-    color: #444;
-    min-height: 4.8em; /* เว้นที่ไว้ประมาณ 3 บรรทัด */
-    text-align: justify;
-}
-
-/* --- Case Selector (Tabs) --- */
-.case-selector {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 15px;
-    flex-wrap: wrap;
-}
-
-.case-btn {
-    padding: 8px 16px;
-    border: none;
-    background: #ffebeb;
-    cursor: pointer;
-    border-radius: 8px;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    color: #555;
-    transition: all 0.3s ease;
-    font-size: 0.85rem;
-}
-
-.case-btn:hover {
-    background: #f7d5d5;
-}
-
-.case-btn.active {
-    background: #cd3737;
-    color: #fff;
-}
-
-/* --- Tab Logic & Animation --- */
-.case-content {
-    display: none;
-    animation: fadeIn 0.4s ease forwards;
-}
-
-.case-content.active {
-    display: block;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* --- ส่วนนี้สำหรับมือถือ (หน้าจอเล็กกว่า 768px) --- */
-@media (max-width: 768px) {
+    padding: 30px; /* เพิ่มพื้นที่ภายในเล็กน้อย */
+    border-radius: 16px; /* ขอบโค้งมน */
     
-    /* ให้ Container หลักที่เคยแบ่งซ้ายขวา เปลี่ยนมาเรียงบนลงล่าง */
-    .tray-grid, 
-    .analysis-comparison-grid, 
-    .image-wrapper {
-        flex-direction: column !important;
-        gap: 15px;
-    }
+    /* บังคับให้ระยะห่างภายในไม่โดนขอบสีน้ำเงินกินพื้นที่ */
+    box-sizing: border-box; 
+    
+    /* --- ไฮไลท์: เพิ่มขอบสีน้ำเงินด้านขวา --- */
+    border-right: none; 
+    border-top: 5px solid #1b2868;  
+    border-bottom: none;
+    border-left: none;
+    
+    /* ใส่เงาจางๆ แบบ Apple ให้ดูลอยออกมา */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
 
-    /* ปรับความกว้างของรูปให้เต็มจอพอดี ไม่ล้นออกข้าง */
-    .large-graph, 
-    .mini-photo {
-        width: 100% !important;
-        flex: none !important;
-        height: auto !important; /* ให้สูงตามสัดส่วนรูปจริง */
-    }
+/* บังคับรูปเรียง ซ้าย(Tray) - ขวา(Graph) */
+.image-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
 
-    /* ปรับขนาดตัวอักษรให้อ่านง่ายขึ้นในมือถือ */
-    h2 { font-size: 1.5rem; }
-    p { font-size: 1rem; }
+.comp-photo {
+    width: 30%; /* รูปถ่ายถาด */
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+.comp-graph {
+    width: 70%; /* รูปกราฟ */
+    height: 250px;
+    object-fit: contain;
+    background: #fafafa;
+    border-radius: 10px;
+    border: 1px solid #eee;
+}
+
+/* ตกแต่งตัว Dropdown (Select) */
+.tray-select {
+    margin-bottom: 2rem;
+    width: 100%;
+    padding: 12px 40px 12px 15px; /* เพิ่มพื้นที่ด้านขวาสำหรับลูกศรใหม่ */
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    color: #1d1d1f; 
+    background-color: #ffffff;
+    
+    /* ล้างดีไซน์เดิมของ Browser */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    
+    /* ใส่ลูกศรใหม่ (Custom Arrow) */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2386868b' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 12px;
+
+    border: 1px solid #b0b0b0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+/* เอฟเฟกต์เมื่อ Hover หรือโฟกัส */
+.tray-select:hover {
+    border-color: #472a07;
+    background-color: #f5f5f7;
+}
+
+.tray-select:focus {
+    outline: none;
+    border-color: #1b255f; /* สีฟ้า Apple */
+}
+
+/* ตกแต่งตัวเลือกด้านใน (ลิสต์รายการ) */
+.tray-select option {
+    font-weight: 400;
+    padding: 10px;
+    background: #fff;
+    color: #1d1d1f;
+}
+
+.comp-desc {
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+    font-size: 14px;
+    color: #343434;
+}
+
+
+
+/* รองรับมือถือ */
+@media (max-width: 850px) {
+    .comparison-grid.dual-column {
+        grid-template-columns: 1fr;
+    }
+    .image-row {
+        flex-direction: column;
+    }
+    .comp-photo, .comp-graph {
+        width: 100%;
+    }
 }
 
 /* ===========================================================================================
@@ -1055,13 +1034,17 @@ html {
     align-content: center;
 }
 
+/* --- แก้ไขในส่วน Simulation ปกติ (Desktop) --- */
 .graph-section {
-    flex: 1; /* ให้กราฟกินพื้นที่ที่เหลือทั้งหมด */
-    min-width: 600px; /* กำหนดความกว้างขั้นต่ำของกราฟให้มากขึ้น */
+    flex: 1;
+    width: 100%;      /* ให้ยืดหยุ่นตามหน้าจอ */
+    min-width: 0;     /* ปลดล็อค 600px ออก เพื่อให้หดตัวในมือถือได้ */
+    margin-bottom: 6rem;
 }
-/* ฝั่งซ้าย: กราฟ */
+
 #countGraph {
-    height: 600px; /* ความสูงตามที่คุณตั้งไว้ */
+    width: 100%;      /* บังคับให้กราฟกว้างเท่ากับคอนเทนเนอร์ */
+    height: 500px;    /* ลดความสูงลงเล็กน้อยจาก 600px เพื่อให้สมดุล */
 }
 
 /* Info Panel - แนวตั้ง */
@@ -1281,64 +1264,46 @@ html {
     }
 
     /* Simulation Layout */
-    .sim-layout {
-        flex-direction: column;
-    }
+        @media (max-width: 768px) {
+        /* 1. จัด Layout ให้เรียงเป็นแนวตั้ง */
+        .sim-layout {
+            flex-direction: column;
+            gap: 20px;
+        }
 
-    .graph-section {
-        min-width: 100%;
-    }
+        /* 2. ปรับกราฟให้พอดีจอ ไม่ล้น */
+        #countGraph {
+            height: 350px !important; /* ลดความสูงเพื่อให้เห็นปุ่มด้านล่างโดยไม่ต้องเลื่อนเยอะ */
+        }
 
-    #countGraph {
-        height: 400px; /* ลดความสูงกราฟในมือถือ */
-    }
+        /* 3. ปรับกล่องข้อมูลให้ดูง่ายขึ้น */
+        .info-sim.vertical {
+            grid-template-columns: 1fr 1fr; /* แบ่ง 2 ฝั่งเหมือนเดิม */
+            max-width: 100%;
+            gap: 10px;
+        }
 
-    .info-sim.vertical {
-        max-width: 100%;
-    }
+        .info-box {
+            padding: 15px 10px;
+        }
 
-    /* จัดเลย์เอาท์หลักให้เรียงกันเป็นแนวตั้ง */
-    .sim-layout {
-        display: flex;
-        flex-direction: column; 
-        gap: 20px;
-    }
+        .info-box h3 { font-size: 16px; }
+        .info-box p { font-size: 18px; }
 
-    /* ปรับส่วนกราฟให้เล็กลงในมือถือ เพื่อไม่ให้บังส่วนอื่น */
-    .graph-section {
-        width: 100%;
-        min-width: unset; /* ล้างค่า min-width เดิมออก */
-        order: 1;         /* ให้กราฟอยู่บนสุด */
-    }
+        /* 4. ปรับกลุ่มปุ่มควบคุม (สำคัญมาก) */
+        .control-btn {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* แบ่งปุ่มเป็น 2 คอลัมน์ (ข้างละ 2 ปุ่ม) */
+            gap: 10px;
+            width: 100%;
+        }
 
-    #countGraph {
-        height: 300px !important; /* บังคับความสูงกราฟให้ลดลงเหลือ 300px */
-    }
-
-    /* ปรับส่วนกล่องข้อมูล (Status/BG) */
-    .info-sim.vertical {
-        order: 2;         /* ให้กล่องข้อมูลตามลงมา */
-        display: grid;
-        grid-template-columns: 1fr 1fr; /* แบ่ง 2 คอลัมน์เหมือนเดิมแต่ให้พอดีจอ */
-        gap: 10px;
-        width: 100%;
-    }
-
-    .info-box {
-        padding: 10px;    /* ลด padding ลงเพื่อให้ประหยัดพื้นที่ */
-    }
-
-    .info-box h3 {
-        font-size: 16px;  /* ลดขนาดหัวข้อ */
-    }
-
-    .info-box p {
-        font-size: 18px;  /* ลดขนาดตัวเลข */
-    }
-
-    .btn {
-        width: 100%;
-        padding: 12px;
+        .btn {
+            width: 100%; /* ให้ปุ่มขยายเต็มช่อง Grid */
+            padding: 12px 5px;
+            font-size: 14px;
+            justify-content: center;
+        }
     }
 }
 
@@ -1358,7 +1323,11 @@ html {
     }
 
     .info-sim.vertical {
-        grid-template-columns: 1fr; /* กล่องสถานะเรียงแถวเดียว */
+        grid-template-columns: 1fr; /* กล่องสถานะเรียงเดี่ยวบนลงล่าง */
+    }
+    
+    #countGraph {
+        height: 300px !important;
     }
 
     .control-btn {
