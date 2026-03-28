@@ -1263,61 +1263,64 @@ html {
         flex-direction: column;
     }
 
-    /* Simulation Layout */
-        /* 1. จัด Layout ให้เรียงเป็นแนวตั้ง */
+
+    /* 1. จัด Layout หลักให้เรียงต่อกันเป็นแนวดิ่ง */
     .sim-layout {
-        flex-direction: column;
-        gap: 20px;
+        display: flex;
+        flex-direction: column; 
+        gap: 25px;
+        padding: 0 10px;
     }
 
+    /* 2. จัดการส่วนกราฟ ไม่ให้ล้นและไม่บังส่วนอื่น */
     .graph-section {
+        width: 100%;
+        min-width: unset;
         order: 1; /* กราฟอยู่บนสุด */
-        margin-bottom: 20px;
     }
     
     #countGraph {
-        height: 350px !important; /* ลดความสูงเพื่อไม่ให้จอล้น */
+        height: 350px !important; /* บังคับความสูงกราฟให้พอดีจอ */
+        width: 100% !important;
     }
+
+    /* 3. แก้ไขกล่องข้อมูล (Status / Height) ไม่ให้โดนบัง */
     .info-sim.vertical {
-        order: 2; /* กล่องสถานะตามลงมา */
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-        max-width: 100%;
-        margin: 0;
-    }
-
-        .info-box {
-            padding: 15px 10px;
-        }
-
-        .info-box h3 { font-size: 16px; }
-        .info-box p { font-size: 18px; }
-
-        /* 4. ปรับกลุ่มปุ่มควบคุม (สำคัญมาก) */
-        /* 2. ปรับกลุ่มปุ่มให้เรียงเดี่ยวบนลงล่าง */
-    .control-btn {
+        order: 2; /* ข้อมูลอยู่กลาง */
         display: flex;
-        flex-direction: column; /* เปลี่ยนจากแนวนอนเป็นแนวตั้ง */
+        flex-direction: column; /* เปลี่ยนจาก Grid เป็น Flex เพื่อให้เรียงลงมาเดี่ยวๆ */
+        gap: 15px;
         width: 100%;
-        gap: 12px;           /* ระยะห่างระหว่างปุ่มที่พอดีมือ */
-        grid-column: span 1;  /* สำคัญ: ล้างค่ากินพื้นที่ 2 คอลัมน์ออก */
-        order: 3;            /* บังคับให้อยู่ด้านล่างสุด (ตามรูป 3) */
-        justify-content: center;
-        margin-top: 15px;
+        max-width: unset;
     }
 
-      /* 3. ปรับขนาดปุ่มให้ขยายเต็มความกว้าง */
+    .info-box {
+        width: 100%;
+        padding: 20px; /* เพิ่มพื้นที่ให้ตัวหนังสือมีที่หายใจ */
+        box-sizing: border-box;
+        border-radius: 12px;
+    }
+
+    /* 4. แก้ไขกลุ่มปุ่มควบคุมให้เรียงสวยและกดง่าย */
+    .control-btn {
+        order: 3; /* ปุ่มอยู่ล่างสุด */
+        display: flex;
+        flex-direction: column; /* เรียงปุ่มลงมาทีละบรรทัด */
+        gap: 10px;
+        width: 100%;
+        margin-top: 10px;
+        grid-column: unset; /* ล้างค่า grid เดิม */
+    }
+
     .btn {
-        width: 100%; /* ปุ่มขยายเต็มความกว้างของคอนเทนเนอร์ */
+        width: 100%;
         padding: 15px;
         font-size: 16px;
         font-weight: 600;
-        text-align: center;
-        border-radius: 12px;
-        justify-content: center; /* จัดตัวหนังสือให้อยู่กลาง */
+        border-radius: 10px;
+        display: block; /* มั่นใจว่าเป็น Block element */
     }
 }
-
 /* --- มือถือขนาดเล็ก (ต่ำกว่า 480px) --- */
 @media (max-width: 480px) {
     .maincontent-info h3 {
