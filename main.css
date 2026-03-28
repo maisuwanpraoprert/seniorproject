@@ -908,18 +908,20 @@ html {
 }
 
 /* --- Image Layout Logic --- */
+/* ลบโค้ด .large-graph และ .mini-photo เดิมออก แล้วใช้แบบนี้แทน */
+
 .image-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
+    gap: 15px; /* เพิ่มระยะห่างนิดหน่อย */
     width: 100%;
-    margin-bottom: 15px;
+    margin: 0 auto 15px auto;
 }
 
 .large-graph {
-    flex: 2.5; /* กราฟกว้างกว่า */
-    height: 220px;
+    width: 100%; /* กราฟเอาไป 70% ของความกว้าง wrapper */
+    height: 520px;
     object-fit: contain;
     background: #fdfdfd;
     border: 1px solid #eee;
@@ -927,11 +929,14 @@ html {
 }
 
 .mini-photo {
-    flex: 1; /* ถาดแคบกว่า */
-    height: 220px; /* สูงเท่ากราฟ */
+    width: 30%; 
+    height: 420px;
     object-fit: cover;
     border: 1px solid #ddd;
     border-radius: 8px;
+    align-items: center;
+    margin-left: 12rem;
+    margin-bottom: 1.5rem;
 }
 
 /* --- Content Styling --- */
