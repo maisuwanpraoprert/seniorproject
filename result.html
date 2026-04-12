@@ -134,12 +134,14 @@
     "normal": {
         graph: "perfect_profile.png",
         photo: "tray.png",
-        desc: "The density profile shows sharp, consistent peaks at each tray level, indicating stable liquid holdup."
+        desc1: "5 trays, 12 cm apart, no leaks",
+        desc2: "Lower counts at tray levels show where liquid is held. This proves the trays are normal, as liquid can collect and overflow to the next stage."
     },
     "leaking": {
         graph: "leaking-graph.png",
         photo: "leaking-tray.jpg",
-        desc: "Peaks appear lower and broader. Indicates liquid is not being held properly, reducing phase contact time."
+        desc1: "5 trays, 12 cm apart. The top tray leaks",
+        desc2: "Higher counts at the top tray indicate a leak. Without liquid to block the radiation, more counts pass through the detector."
     },
     "tilted": {
         graph: "tilted-graph.png",
@@ -149,7 +151,8 @@
     "dislodged": {
         graph: "dislodged-graph.png",
         photo: "dislodged-tray.jpg",
-        desc: "Missing peak at tray elevation. Identifies a fallen tray, causing massive bypass and efficiency loss."
+        desc1: "The tray fell onto the one below. This leaves an empty gap where it was and a double-thick layer at the bottom.",
+        desc2: "Missing peak at tray elevation. Identifies a fallen tray, causing massive bypass and efficiency loss."
     }
 };
 
@@ -165,8 +168,12 @@
                 <img src="${data.graph}" class="comp-graph" alt="Graph">
             </div>
             <div class="comp-desc">
+                <strong>structure:</strong>
+                <p>${data.desc1}</p>
+            </div>
+            <div class="comp-desc">
                 <strong>Analysis:</strong>
-                <p>${data.desc}</p>
+                <p>${data.desc2}</p>
             </div>
         `;
     }
