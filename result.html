@@ -50,6 +50,40 @@
                         <img src="diagram.png">
                     </div>
                     <p class="setup-desc">This setup illustrates the integration of the gamma source and detector system mounted on the scanning structure.</p>
+
+                    <div class="setup-layout">
+                        <div class="main-setup-img">
+                            <img src="lcd-setup.png" alt="Experiment Diagram">
+                        </div>
+
+                        <div class="setup-params-card">
+                            <h3>Scanning Parameters</h3>
+                            <ul class="params-list-grid">
+                                <div class="param-left">
+                                    <li><strong>Set High:</strong> 61 cm</li>
+                                    <li><strong>Set Step:</strong> 5 mm</li>
+                                </div>
+                                <div class="param-right">
+                                    <li><strong>Set Start:</strong> 0 cm</li>
+                                    <li><strong>Set time:</strong> 6 seconds</li>
+                                </div>
+                            </ul>
+                            <p class="setup-note">
+                                The system moves the source and detector incrementally from the bottom to the top
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="scan-configs">
+                        <div class="config-item">
+                            <img src="0-scan.png" alt="0 Degree Scan">
+                            <p><strong>0° Scan</strong></p>
+                        </div>
+                        <div class="config-item">
+                            <img src="45-scan.png" alt="45 Degree Scan">
+                            <p><strong>45° Scan</strong></p>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -89,6 +123,12 @@
                     <option value="tilted">Tilted Tray</option>
                     <option value="dislodged">Dislodged Tray</option>
                 </select>
+                
+                <div class="tabs-container" id="tabs-col-1">
+                    <button class="tab-btn active" onclick="handleSubSelection(1, 0)">Option A</button>
+                    <button class="tab-btn" onclick="handleSubSelection(1, 1)">Option B</button>
+                </div>
+
                 <div class="display-area"></div>
             </div>
 
@@ -99,6 +139,12 @@
                     <option value="tilted">Tilted Tray</option>
                     <option value="dislodged">Dislodged Tray</option>
                 </select>
+
+                <div class="tabs-container" id="tabs-col-2">
+                    <button class="tab-btn active" onclick="handleSubSelection(2, 0)">Option A</button>
+                    <button class="tab-btn" onclick="handleSubSelection(2, 1)">Option B</button>
+                </div>
+
                 <div class="display-area"></div>
             </div>
         </div>
@@ -130,59 +176,153 @@
     <div class="footer-buttom">© 2026 Mai and Vikrom | Project in Nuclear Enginnering 2111403 | Department of Nuclear Technology, Faculty of Engineering</div>
     
     <script>
-    const trayData = {
-    "normal": {
-        graph: "perfect_profile.png",
-        photo: "tray.png",
-        desc1: "5 trays, 12 cm apart, no leaks",
-        desc2: "Lower counts at tray levels show where liquid is held. This proves the trays are normal, as liquid can collect and overflow to the next stage."
-    },
-    "leaking": {
-        graph: "leaking-graph.png",
-        photo: "leaking-tray.jpg",
-        desc1: "5 trays, 12 cm apart. The top tray leaks",
-        desc2: "Higher counts at the top tray indicate a leak. Without liquid to block the radiation, more counts pass through the detector."
-    },
-    "tilted": {
-        graph: "tilted-graph.png",
-        photo: "tilted-tray.jpg",
-        desc: "Results in an asymmetric profile. Shows higher liquid accumulation on one side and gas breakthrough."
-    },
-    "dislodged": {
-        graph: "dislodged-graph.png",
-        photo: "dislodged-tray.jpg",
-        desc1: "The tray fell onto the one below. This leaves an empty gap where it was and a double-thick layer at the bottom.",
-        desc2: "Missing peak at tray elevation. Identifies a fallen tray, causing massive bypass and efficiency loss."
-    }
-};
+        const trayData = {
+            "normal": {
+                tabType: "angle",
+                options: [
+                    { 
+                        label: "0° Scanning", 
+                        graph: "normal-0.png", 
+                        desc1: "0° Scan: Normal Structure", 
+                        // ปรับเป็นโครงสร้าง HTML List สั้นๆ
+                        desc2: `
+                            <ul style="margin-left: 20px;">
+                                <li><b> Uniform Peaks:</b> Consistent pattern confirms proper tray alignment.</li>
+                                <li><b> Low Counts:</b> High attenuation caused by water pooling on trays and the acrylic material.</li>
+                                <li><b> High Counts:</b> Radiation passes easily through air between trays.</li>
+                            </ul>`
+                    },
+                    { 
+                        label: "45° Scanning", 
+                        graph: "normal-45.png", 
+                        desc1: "45° Scan: Diagonal View", 
+                        desc2: `
+                            <ul style="margin-left: 15px; margin-top: 5px;">
+                                <li><b>Diagonal Path:</b> Longer radiation travel distance through the column structure.</li>
+                                <li><b>Downcomer Interference:</b> The slight dips on the right side of the inter-tray peaks occur because the radiation must pass through the downcomer at this specific angle.</li>
+                                <li><b>Lower Count Rates:</b> The diagonal orientation results in higher overall attenuation compared to the 0° scan.</li>
+                            </ul>`
+                    }
+                ]
+            },
+            "leaking": {
+                tabType: "percent",
+                options: [
+                    { 
+                        label: "1% Leakage",
+                        graph: "leak-1.png", 
+                        desc1: "1% Area Leakage of First Tray", 
+                        desc2: `
+                            <ul style="margin-left: 15px; margin-top: 5px;">
+                                <li><b>Slight Increase:</b> Radiation counts at the leaking tray level are slightly higher than the normal case.</li>
+                                <li><b>Minor Breach:</b> Indicates a small loss of liquid seal covering 1% of the tray area.</li>
+                            </ul>`
+                    },
 
-    function updateComparison(colNum, trayKey) {
-        const data = trayData[trayKey];
-        const displayArea = document.querySelector(`#col-${colNum} .display-area`);
+                    { 
+                        label: "5% Leakage",
+                        graph: "leak-5.png", 
+                        desc1: "5% Area Leakage of First Tray", 
+                        desc2: `
+                            <ul style="margin-left: 15px; margin-top: 5px;">
+                                <li><b>Large Spike:</b> Much higher radiation counts at the tray level show that the water is missing.</li>
+                                <li><b>Severe Leak:</b> The tray is failing to hold water across 5% of its area, letting radiation pass through easily.</li>
+                            </ul>`
+                    }
+                ]
+            },
 
-        if (!data || !displayArea) return;
+            "tilted": {
+                tabType: "none",
+                options: [
+                    { 
+                        label: "tilted", 
+                        graph: "tilted.png", 
+                        desc1: "Asymmetric tray structure", 
+                        desc2: `
+                            <ul style="margin-left: 20px;">
+                                <li><b>Uneven Peaks:</b> The graph shows irregular shapes because the tray is not level.</li>
+                                <li><b>Unbalanced Liquid:</b> Water pools more on one side, causing different radiation counts across the tray.</li>
+                                <li><b>Pattern Change:</b> Unlike the normal case, the peaks do not look the same for every layer.</li>
+                            </ul>`
+                    }]
+            },
+            "dislodged": {
+                tabType: "none",
+                options: [
+                    { 
+                        label: "dislodge", 
+                        graph: "dislodge.png", 
+                        desc1: "Upper tray dislodged and fell onto the second tray", 
+                        desc2: `
+                            <ul style="margin-left: 20px;">
+                                <li><b>Reduced Gap:</b> The first two peaks are closer because the top tray fell onto the second.</li>
+                                <li><b>Higher Counts at Top:</b>adiation spikes at the top because the tray is missing, leaving only air.</li>
+                                <li><b>Double Attenuation:</b>Where trays overlap, radiation drops sharply due to double layers of material and water.</li>
+                            </ul>`
+                    }]
+            }
+        };
 
-        displayArea.innerHTML = `
-            <div class="image-row">
-                <img src="${data.photo}" class="comp-photo" alt="Tray">
-                <img src="${data.graph}" class="comp-graph" alt="Graph">
-            </div>
-            <div class="comp-desc">
-                <strong>structure:</strong>
-                <p>${data.desc1}</p>
-            </div>
-            <div class="comp-desc">
-                <strong>Analysis:</strong>
-                <p>${data.desc2}</p>
-            </div>
-        `;
-    }
+        // แยกสถานะ Column 1 และ 2
+        let currentSubIndex = { 1: 0, 2: 0 }; 
 
-    document.addEventListener("DOMContentLoaded", function() {
-        updateComparison(1, "normal");
-        updateComparison(2, "leaking");
-        // ลบการเรียก updateComparison สำหรับ column 3 ออกเพราะเราใช้แค่ 2 คอลัมน์
-    });
+        function updateComparison(colNum, trayKey) {
+            const data = trayData[trayKey];
+            const displayArea = document.querySelector(`#col-${colNum} .display-area`);
+            const tabsContainer = document.getElementById(`tabs-col-${colNum}`);
+            
+            // จัดการการแสดงผลปุ่มในกล่องนั้นๆ
+            if (data.tabType === "none") {
+                tabsContainer.style.visibility = "hidden"; // ใช้ visibility เพื่อไม่ให้ Layout ขยับ
+                tabsContainer.style.height = "0";
+            } else {
+                tabsContainer.style.visibility = "visible";
+                tabsContainer.style.height = "auto";
+                const btns = tabsContainer.querySelectorAll('.tab-btn');
+                btns[0].innerText = data.options[0].label;
+                btns[1].innerText = data.options[1].label;
+            }
+
+            // แสดงข้อมูลตาม index ของคอลัมน์ตัวเอง
+            const subIdx = currentSubIndex[colNum];
+            const selectedOption = data.options[subIdx] || data.options[0];
+
+            displayArea.innerHTML = `
+                <div class="image-row">
+                    <img src="${selectedOption.photo || 'tray.png'}" class="comp-photo" alt="Tray">
+                    <img src="${selectedOption.graph}" class="comp-graph" alt="Graph">
+                </div>
+                <div class="comp-desc">
+                    <strong>Structure:</strong>
+                    <p>${selectedOption.desc1}</p>
+                </div>
+                <div class="comp-desc">
+                    <strong>Analysis:</strong>
+                    <p>${selectedOption.desc2}</p>
+                </div>
+            `;
+        }
+
+        // ฟังก์ชันเลือก Tab แยกตามคอลัมน์
+        function handleSubSelection(colNum, index) {
+            currentSubIndex[colNum] = index;
+            
+            // เปลี่ยนสถานะปุ่มในคอลัมน์ที่กด
+            const tabsContainer = document.getElementById(`tabs-col-${colNum}`);
+            const btns = tabsContainer.querySelectorAll('.tab-btn');
+            btns.forEach(btn => btn.classList.remove('active'));
+            btns[index].classList.add('active');
+
+            // อัปเดตกราฟเฉพาะคอลัมน์นั้น
+            const currentKey = document.querySelector(`#col-${colNum} .tray-select`).value;
+            updateComparison(colNum, currentKey);
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            updateComparison(1, "normal");
+            updateComparison(2, "leaking");
+        });
     </script>
 </body>
 </html>
