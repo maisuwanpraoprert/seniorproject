@@ -220,7 +220,7 @@ function resetScan() {
   heightData = [];
   countData = [];
 
-  currentScanHeight = -1;  // ⭐ เพิ่ม
+  currentScanHeight = -1; 
 
   initGraphs();
 
